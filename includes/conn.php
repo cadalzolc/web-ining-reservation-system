@@ -1,7 +1,7 @@
 <?php
 
     function Execute($sql) {
-        $servername = "localhost";
+        $servername = "192.168.1.167";
         $username = "root";
         $password = "";
         $database = "medallion";

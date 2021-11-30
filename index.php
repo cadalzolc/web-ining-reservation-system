@@ -62,7 +62,7 @@ include('./includes/conn.php');
 
                         <!-- Title -->
                         <div class="col-lg-12" style="padding-bottom: 15px;">
-                            <h3 class="mb-4 fw-normal h1">New <span data-animate="svg-underline-animated"
+                            <h3 class="mb-4 fw-normal h1">New 12 <span data-animate="svg-underline-animated"
                                     class="svg-underline nocolor svg-underline-animated animated"><span>Arrivals</span></span>
                             </h3>
                             <p class="op-07 mb-4">Compellingly cultivate synergistic infrastructures rather than fully
