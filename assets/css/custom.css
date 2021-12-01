@@ -211,3 +211,26 @@ body:not(.device-touch):not(.device-sm):not(.device-xs) .product-image>a {
 .min-vh-50 {
     min-height: 50vh!important;
 }
+.text-box {
+    height: auto;
+    min-height: 32px;
+    width: 100%;
+    BACKGROUND: #fff;
+    font-size: 12px;
+    width: 100%;
+    color: #333;
+    padding: 3px 5px;
+    border: 1px solid #a19e9e;
+}
+
+.form-info {
+    color: #000;
+    font-size: 14px;
+}
+
+.info-warning {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: right;
+    color: #b73f45;
+}
