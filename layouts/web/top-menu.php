@@ -26,17 +26,11 @@
                 <li><a href="./" class="page-scroll">
                         <h3>Home</h3>
                     </a></li>
-
                 <li><a href="./about.php" class="page-scroll">
                         <h3>About</h3>
                     </a></li>
-
-                <li><a href="#three" class="page-scroll">
-                        <h3>Services</h3>
-                    </a></li>
-
-                <li><a href="#four" class="page-scroll">
-                        <h3>Contact</h3>
+                    <li><a href="./" class="page-scroll">
+                        <h3>contact</h3>
                     </a></li>
 
                 <li><a href="signup.php" class="page-scroll">

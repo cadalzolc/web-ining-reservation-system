@@ -234,3 +234,43 @@ body:not(.device-touch):not(.device-sm):not(.device-xs) .product-image>a {
     text-align: right;
     color: #b73f45;
 }
+
+.overlay-modal {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    background: rgba(51, 51, 51, 0.50);
+    z-index: 1100;
+    display: none;
+}
+
+.modal-dialog {
+    padding-top: 50px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.mr-1 {
+    margin-right: 0.20rem;
+}
+
+.form-title {
+    font-size: 2rem;
+}
+
+.form-title-child {
+    font-size: 1.3rem;
+}
+
+.form-title ,
+.form-title-child {
+    color: #333;
+    display: block;
+    padding-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+}

@@ -38,8 +38,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                         <div class="panel panel-default">
                             <div class="panel-body">
 
-                                <form class="form-horizontal form-info" role="form" id="form-login"
-                                    action="/medallion/admin/indexClient.php" method="POST">
+                                <form class="form-horizontal form-info" onsubmit="return OnFormReserve(this);">
 
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Name</div>
@@ -47,49 +46,62 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Rates</div>
-                                        <div class="col-sm-8" data-rate="<?php echo $row['rates']; ?>"><?php echo $row['rates']; ?></div>
+                                        <div class="col-sm-8" data-rate="<?php echo $row['rates']; ?>">
+                                            <?php echo $row['rates']; ?></div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Check-In Date</div>
                                         <div class="col-sm-8">
-                                            <input type="date" class="text-box" min="<?php echo $date; ?>" value="<?php echo $date; ?>"
-                                                placeholder="YYYY-MM-DD" />
+                                            <input type="date" name="Check-in" class="text-box" min="<?php echo $date; ?>"
+                                                value="<?php echo $date; ?>" placeholder="YYYY-MM-DD" />
                                         </div>
                                     </div>
                                     <div class="row info-warning">
-                                        <div class="col-sm-12"><span><?php echo $row['available']; ?></span> available units by Check-in Date (<?php echo $date; ?>)</div>
+                                        <div class="col-sm-12"><span><?php echo $row['available']; ?></span> available
+                                            units by Check-in Date (<?php echo $date; ?>)</div>
 
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Units</div>
                                         <div class="col-sm-8">
-                                            <select class="text-box" id="units" name="units">
+                                            <select class="text-box" id="nits" name="Units">
                                                 <?php  
-                                                    for ($x = 1; $x <= $row['available']; $x++) {
-                                                    echo '<option value="'. $x .'">'. $x .'</option>';
+                                                for ($x = 1; $x <= $row['available']; $x++) {
+                                                    if ($x == 1) {
+                                                        echo '<option selected value="'. $x .'">'. $x .'</option>';
+                                                    }else {
+                                                        echo '<option value="'. $x .'">'. $x .'</option>';
                                                     }
-                                              ?>  
+                                                }
+                                            ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Persons</div>
                                         <div class="col-sm-8">
-                                            <input type="number" class="text-box" min="1" max="100" value="0" required="" />
+                                            <input type="number" name="Person" class="text-box" min="1" max="100" value="0" required="" />
                                         </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Total</div>
-                                        <div class="col-sm-8" data-total="0">0.00</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <button type="submit" class="btn btn-primary" name="btn-add">
-                                                    Reserved
-                                                    <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                                                </button>
+                                        <div class="col-sm-8" data-total="0">
+                                            <?php
+                                            if ($row['available'] == "1") {
+                                                echo $row['rates'] * 1;
+                                            }else {
+                                                echo "0";
+                                            }
+                                        ?>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align: right;">
+                                            <button ype="submit" class="btn btn-primary" name="btn-add"
+                                                style="margin-left: 5px;">Reserved</button>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="AID" value="<?php echo $row['id']; ?>" />
                                 </form>
                                 <?php
                 } else {
@@ -97,18 +109,51 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                 }
                 
                 ?>
-                            </div>
+            </div>
         </section>
+
+
+        <div id="Olm" class="overlay-modal"></div>
+
         <?php 
             include('./layouts/web/footer.php');
             include('./layouts/scripts.php');
             ?>
+
+
         <script>
-            $('#units').bind('change', function() {
-                let rate =  $('div[data-rate]').data('rate');
+            $('#units').bind('change', function () {
+                let rate = $('div[data-rate]').data('rate');
                 let total = rate * $(this).val();
                 $('div[data-total]').html(total);
             });
+
+            function OnFormReserve(frm) {
+                $.get('./includes/online.php', function(data) {
+                    if (data == 0) {
+                        $.get('./layouts/forms/login.php', $(frm).serialize(), function(data) {
+                            $('#Olm').append(data);
+                            $('#Olm').show();
+                        });
+                    }
+                    else {
+                    }
+                });
+                return false;
+            }
+
+            function OnFormLogin(frm) {
+                $.post('./process/form-login.php', $(frm).serialize(), function(data) {
+                    alert(data);
+                });
+                return false;
+            }
+
+            $(document).on('click', 'button[data-close]', function(){ 
+                $('#Olm').hide();
+            }); 
+    
+
         </script>
 
 </body>

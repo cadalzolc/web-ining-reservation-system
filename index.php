@@ -17,8 +17,6 @@ include('./includes/conn.php');
         <div class="wrapper">
 
             <?php include('./layouts/web/top-menu.php');?>
-
-
             <section class="main-heading" id="home">
 
                 <div class="overlay">
@@ -65,8 +63,7 @@ include('./includes/conn.php');
                             <h3 class="mb-4 fw-normal h1">Resorts Gallery<span data-animate="svg-underline-animated"
                                     class="svg-underline nocolor svg-underline-animated animated"><span></span></span>
                             </h3>
-                            <p class="op-07 mb-4">Compellingly cultivate synergistic infrastructures rather than fully
-                                tested opportunities. Synergistically evisculate web-enabled interfaces.</p>
+                            <p class="op-07 mb-4">Welcome to your vacation home.</p>
                             <a href="http://themes.semicolonweb.com/html/canvas/demo-furniture-products.html"
                                 class="button button-border py-1 nott ls0 fw-normal button-dark border-width-1 border-color h-bg-color">New
                                 Arrivals</a>

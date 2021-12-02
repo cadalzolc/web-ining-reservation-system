@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#">Bining Reservation System</a>
+		<a class="navbar-brand" href="#">B' 	ning Reservation System</a>
 		<ul class="nav navbar-nav">
 			<li>
 				<a href="#"></a>
