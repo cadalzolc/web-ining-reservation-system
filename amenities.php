@@ -1,5 +1,9 @@
 <?php
 include('./includes/conn.php');
+include('./includes/config.php');
+
+session_start();
+session_destroy();
 
 $id = $_GET['id'];
 $date= date('Y-m-d');
@@ -64,7 +68,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Units</div>
                                         <div class="col-sm-8">
-                                            <select class="text-box" id="nits" name="Units">
+                                            <select class="text-box" id="Units" name="Units">
                                                 <?php  
                                                 for ($x = 1; $x <= $row['available']; $x++) {
                                                     if ($x == 1) {
@@ -87,7 +91,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                         <div class="col-sm-4">Total</div>
                                         <div class="col-sm-8" data-total="0">
                                             <?php
-                                            if ($row['available'] == "1") {
+                                            if ($row['available'] >= 1) {
                                                 echo $row['rates'] * 1;
                                             }else {
                                                 echo "0";
@@ -122,7 +126,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
 
 
         <script>
-            $('#units').bind('change', function () {
+            $('#Units').bind('change', function () {
                 let rate = $('div[data-rate]').data('rate');
                 let total = rate * $(this).val();
                 $('div[data-total]').html(total);
@@ -132,6 +136,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                 $.get('./includes/online.php', function(data) {
                     if (data == 0) {
                         $.get('./layouts/forms/login.php', $(frm).serialize(), function(data) {
+                            $('#Olm').empty();
                             $('#Olm').append(data);
                             $('#Olm').show();
                         });
@@ -144,7 +149,20 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
 
             function OnFormLogin(frm) {
                 $.post('./process/form-login.php', $(frm).serialize(), function(data) {
-                    alert(data);
+                    if (data.success) {
+                        toastr.success(data.message);
+                        window.location.href=  "<?php echo BaseURL(); ?>thanks.php?trn=" + data.results.trn + "&date=" + data.results.date + "&name=" + data.results.name;
+                    }else{
+                        toastr.error(data.message);
+                    }
+                });
+                return false;
+            }
+
+            function OnFormRegister(frm) {
+                $.post('./process/form-register.php', $(frm).serialize(), function(data) {
+                    console.log(data);
+                   alert(data.message);
                 });
                 return false;
             }

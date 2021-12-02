@@ -29,15 +29,15 @@
                 <li><a href="./about.php" class="page-scroll">
                         <h3>About</h3>
                     </a></li>
-                    <li><a href="./" class="page-scroll">
+                    <li><a href="./contact.php" class="page-scroll">
                         <h3>contact</h3>
                     </a></li>
 
-                <li><a href="signup.php" class="page-scroll">
+                <li><a href="./signup.php" class="page-scroll">
                         <h3>Register</h3>
                     </a></li>
 
-                <li><a href="admin/" class="page-scroll">
+                <li><a href="./login.php/" class="page-scroll">
                         <h3>Login</h3>
                     </a></li>
             </ul>

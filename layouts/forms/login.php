@@ -12,7 +12,7 @@ echo '
             <div class="row">
                 <div class="col-sm-6" style="border-right: 3px solid #337ab7;">
                     <h1 class="form-title">Dont have an account yet?</h1>
-                    <h3 class="form-title-child" style="margin-bottom: 10px;">Register now</h3>
+                    <h3 class="form-title-child" style="margin-bottom: 10px;">Customer Registration</h3>
                     <form class="form-horizontal form-info" method="POST" onsubmit="return OnFormRegister(this);" style="margin-bottom: 10px;">
                         <div class="row" style="padding-bottom: 7px;">
                             <div class="col-sm-5">First Name</div>
@@ -37,11 +37,15 @@ echo '
                                 <button type="submit" class="btn btn-primary" style="font-size: 12px;">Submit</button>
                             </div>
                         </div>
+                        <input type="hidden" name="T1" value="'. $DT_AID .'" />
+                        <input type="hidden" name="T2" value="'. $DT_CheckIn .'" />
+                        <input type="hidden" name="T3" value="'. $DT_Units .'" />
+                        <input type="hidden" name="T4" value="'. $DT_Person .'" />
                     </form>
                 </div>
                 <div class="col-sm-6">
                     <h1 class="form-title">Already registered?</h1>
-                    <h3 class="form-title-child" style="margin-bottom: 10px;">Login your account</h3>
+                    <h3 class="form-title-child" style="margin-bottom: 10px;">Customer Login</h3>
                     <form class="form-horizontal form-info" method="POST" onsubmit="return OnFormLogin(this);" style="margin-bottom: 10px;">
                         <div class="row" style="padding-bottom: 7px;">
                             <div class="col-sm-5">Username</div>

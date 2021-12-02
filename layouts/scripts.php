@@ -11,3 +11,4 @@
 <script src="./assets/js/jquery.magnific-popup.min.js" type="text/javascript"></script>
 <script src="./assets/js/SmoothScroll.js"></script>
 <script src="./assets/js/common.js"></script>
+<script src="./assets/js/toastr.min.js"></script>
