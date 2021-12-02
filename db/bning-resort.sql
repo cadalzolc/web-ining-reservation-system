@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2021 at 01:13 PM
+-- Generation Time: Dec 02, 2021 at 05:46 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -20,6 +20,90 @@ SET time_zone = "+00:00";
 --
 -- Database: `medallion`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_reservation` (`p_am_id` INT, `p_cs_id` INT, `p_no_units` INT, `p_check_in` VARCHAR(10), `p_no_persons` INT)  BEGIN
+
+	DECLARE p_date VARCHAR(10);
+    DECLARE p_rate VARCHAR(10);
+    DECLARE p_amount VARCHAR(10);
+    DECLARE p_id INT;
+    
+    SET p_rate = (SELECT rates FROM lst_aminities WHERE id = p_am_id);
+    SET p_date = current_date();
+    SET p_amount = 0;
+    
+    IF NOT ISNULL(p_rate) THEN
+		SET p_amount = p_rate * p_no_units;
+    END IF;
+
+	INSERT INTO trn_reservation
+	(
+	date, am_id, cs_id, amount, no_units, check_in, status, discount, no_persons
+	)
+	VALUES
+	(
+	p_date, p_am_id, p_cs_id, p_amount, p_no_units, p_check_in, 'P', 0, p_no_persons
+	);
+    
+     SET p_id = LAST_INSERT_ID();
+     
+     SELECT CONCAT('RS', 1000 + p_id) as trans_no, p_id as id;
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_aminity_info_today` (`p_id` INT, `p_date` VARCHAR(10))  BEGIN
+
+ SELECT *, 
+	unit - booked As available FROM
+ (
+ SELECT 
+        `la`.`id` AS `id`,
+        `la`.`type_id` AS `type_id`,
+        `ta`.`name` AS `type`,
+        `la`.`name` AS `name`,
+        `la`.`photo` AS `photo`,
+        `la`.`rates` AS `rates`,
+        `la`.`person` AS `person`,
+        `la`.`status` AS `status`,
+        `la`.`unit` AS `unit`,
+        `la`.`discount_id` AS `discount_id`,
+        `td`.`name` AS `discount`,
+        `td`.`percent` AS `percent`,
+        `la`.`active` AS `active`,
+        (SELECT COUNT(*) AS N 
+		FROM trn_schedule ts 
+		WHERE ts.am_id = la.id AND ts.date = p_date) AS booked
+    FROM
+        `lst_aminities` `la`
+        LEFT JOIN `typ_aminities` `ta` ON `ta`.`id` = `la`.`type_id`
+        LEFT JOIN `typ_discount` `td` ON `td`.`id` = `la`.`discount_id`) AS lsr
+	WHERE lsr.id = p_id;
+
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
+
+	SELECT * FROM vw_users 
+    WHERE user_account = p_user 
+    AND user_password = p_pass;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login_customer` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
+
+	SELECT * FROM vw_users 
+    WHERE user_account = p_user 
+    AND user_password = p_pass
+    AND role_id = 2;
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -173,7 +257,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `role_id`, `user_account`, `user_password`) VALUES
 (1, 4, 'admin', '21232f297a57a5a743894a0e4a801fc3'),
-(2, 4, 'admin2', 'c84258e9c39059a89ab77d846ddab909');
+(2, 2, 'guest', '21232f297a57a5a743894a0e4a801fc3'),
+(3, 2, 'test', '21232f297a57a5a743894a0e4a801fc3');
 
 --
 -- Indexes for dumped tables
@@ -272,7 +357,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
