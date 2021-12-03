@@ -32,9 +32,48 @@ echo '
                                 <input  class="form-input" type="text" name="NameL" value="" required=""/>
                             </div>
                         </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Gender</div>
+                            <div class="col-sm-7"">
+                                <select  class="form-input" name="Gender" required="">
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Age</div>
+                            <div class="col-sm-7"">
+                                <input  class="form-input" type="number" min="0" max="150" name="Age" value="" required=""/>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Contact</div>
+                            <div class="col-sm-7"">
+                                <input  class="form-input" type="text" name="Contact" value="" required=""/>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Address</div>
+                            <div class="col-sm-7"">
+                                <input  class="form-input" type="text" name="Address" value="" required=""/>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Username</div>
+                            <div class="col-sm-7"">
+                                <input  class="form-input" type="text" name="Username" value="" required=""/>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Password</div>
+                            <div class="col-sm-7"">
+                                <input  class="form-input" type="text" name="Password" value="" required=""/>
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="col-lg-12" style="float: right; padding: 5px 15px;">
-                                <button type="submit" class="btn btn-primary" style="font-size: 12px;">Submit</button>
+                            <div class="col-lg-12" style=" padding: 5px 15px;">
+                                <button type="submit" class="btn btn-primary" style="font-size: 12px; float: right;">Submit</button>
                             </div>
                         </div>
                         <input type="hidden" name="T1" value="'. $DT_AID .'" />

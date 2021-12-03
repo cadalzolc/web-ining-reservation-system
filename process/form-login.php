@@ -11,7 +11,7 @@ $data = '{
 }';
 
 $User = $_POST["Username"];
-$Pass = md5($_POST["Password"]) ;
+$Pass = md5($_POST["Password"]);
 
 $res = Execute("CALL sp_login_customer('$User', '$Pass')");
 $count = mysqli_num_rows($res);

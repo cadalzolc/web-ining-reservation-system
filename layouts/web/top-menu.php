@@ -26,21 +26,23 @@
                 <li><a href="./" class="page-scroll">
                         <h3>Home</h3>
                     </a></li>
-                <li><a href="./about.php" class="page-scroll">
-                        <h3>About</h3>
-                    </a></li>
-                    <li><a href="./contact.php" class="page-scroll">
-                        <h3>contact</h3>
-                    </a></li>
+                <ul class="nav navbar-nav navbar-right">
 
-                <li><a href="./signup.php" class="page-scroll">
-                        <h3>Register</h3>
-                    </a></li>
+                    <li><a href="./" class="page-scroll">
+                            <h3>View</h3>
+                        </a></li>
+                    <li><a href="./about.php" class="page-scroll">
+                            <h3>About & Contact</h3>
+                        </a></li>
+                    <li><a href="./signup.php" class="page-scroll">
+                            <h3>Register</h3>
+                        </a></li>
 
-                <li><a href="./login.php/" class="page-scroll">
-                        <h3>Login</h3>
-                    </a></li>
-            </ul>
+                    <li><a href="./login.php/" class="page-scroll">
+                            <h3>Login</h3>
+                        </a></li>
+
+                </ul>
         </div>
     </div>
 </nav>

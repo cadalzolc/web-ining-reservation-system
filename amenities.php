@@ -161,8 +161,12 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
 
             function OnFormRegister(frm) {
                 $.post('./process/form-register.php', $(frm).serialize(), function(data) {
-                    console.log(data);
-                   alert(data.message);
+                    if (data.success) {
+                        toastr.success(data.message);
+                        window.location.href=  "<?php echo BaseURL(); ?>thanks.php?trn=" + data.results.trn + "&date=" + data.results.date + "&name=" + data.results.name;
+                    }else{
+                        toastr.error(data.message);
+                    }
                 });
                 return false;
             }
