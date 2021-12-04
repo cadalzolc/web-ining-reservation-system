@@ -140,8 +140,8 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                             $('#Olm').append(data);
                             $('#Olm').show();
                         });
-                    }
-                    else {
+                    }else {
+                        //direct reservation
                     }
                 });
                 return false;

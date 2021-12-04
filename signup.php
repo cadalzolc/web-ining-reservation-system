@@ -4,32 +4,20 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Bining Resort</title>
-
-		<!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
-
+			<title>Bining Resort</title>
+		<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap-theme.min.css">
 	</head>
 <body>
 
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#">B' 	ning Reservation System</a>
-		<ul class="nav navbar-nav">
-			<li>
-				<a href="#"></a>
-			</li>
-			<li>
-				<a href="#"></a>
-			</li>
-		</ul>
+		<a class="navbar-brand" href="#">B'ning Reservation System</a>
 		<ul class="nav navbar-nav navbar-right">
-	      <li><a href="index.php"><span class="glyphicon glyphicon-backward"></span> Return Home</a></li>
+	      <li><a href="index.php"><span class="glyphicon glyphicon-backward"></span>Back to Website</a></li>
 	    </ul>
 	</div>
 </nav>
-
 
 
 <div class="col-md-3"></div>
@@ -40,109 +28,112 @@
 		</div>
 		<div class="panel-body">
 
-			<form class="form-horizontal" role="form" id="form-pass" action="includes/signup_inc.php" method = "POST">
+			<form method = "POST" class="form-horizontal" role="form" onsubmit="return OnRegisterSubmit(this);">
 
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Fullname:</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="fn" placeholder="Enter Fullname" autofocus="">
+			    <label class="control-label col-sm-3">First Name:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="NameF" placeholder="First Name" autofocus="" required="">
 			    </div>
 			  </div>
 
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Address:</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="add" placeholder="Enter Address" autofocus="">
+			    <label class="control-label col-sm-3">Middle Name:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="NameM" placeholder="Middle Name" autofocus="" required="">
 			    </div>
 			  </div>
 
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Contact:</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="con" placeholder="Enter Contact" autofocus="">
+			    <label class="control-label col-sm-3">Last Name:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="NameL" placeholder="Last Name" autofocus="" required="">
 			    </div>
 			  </div>
 
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Age:</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="age" placeholder="Enter Age" autofocus="">
+			    <label class="control-label col-sm-3">Age:</label>
+			    <div class="col-sm-9">
+			      <input type="number" class="form-control" name="Age" placeholder="Enter Age" autofocus="" required="">
 			    </div>
 			  </div>
 
 			  <div class="form-group">
-				<label class="control-label col-sm-2">Gender:</label>
-				<select class="btn btn-default" name="gen" style="margin-left: 13px; padding-left: 18px">
-					<option value="Male">Male</option>
-					<option value="Female">Female</option>
+				<label class="control-label col-sm-3">Gender:</label>
+				<select class="btn btn-default" name="Gender" style="margin-left: 13px; padding-left: 18px" required="">
+					<option value="M">Male</option>
+					<option value="F">Female</option>
 				</select>
 			  </div>
 
+			  
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Username:</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="un" placeholder="Enter Username" autofocus="">
+			    <label class="control-label col-sm-3">Address:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="Address" placeholder="Enter Address" autofocus="" required="">
 			    </div>
 			  </div>
 
 			  <div class="form-group">
-			    <label class="control-label col-sm-2">Password:</label>
-			    <div class="col-sm-10"> 
-			      <input type="password" class="form-control" name="pwd" placeholder="Enter password">
+			    <label class="control-label col-sm-3">Contact:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="Contact" placeholder="Enter Contact" autofocus="" required="">
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="control-label col-sm-3">Email:</label>
+			    <div class="col-sm-9"> 
+			      <input type="email" class="form-control" name="Email" placeholder="Enter Email" required="">
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="control-label col-sm-3">Username:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="Username" placeholder="Enter Username" autofocus="" required="">
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="control-label col-sm-3">Password:</label>
+			    <div class="col-sm-9"> 
+			      <input type="password" class="form-control" name="Password" placeholder="Enter password" required="">
 			    </div>
 			  </div>
 			  
-              <div class="form-group">
-			    <label class="control-label col-sm-2">Email:</label>
-			    <div class="col-sm-10"> 
-			      <input type="password" class="form-control" name="pwd" placeholder="Enter password">
-			    </div>
-			  </div>
-
 			  <div class="form-group"> 
-			    <div class="col-sm-offset-2 col-sm-10">
-			      <button type="submit" class="btn btn-primary" name="btn-add">Register
+			    <div class="col-sm-offset-2 col-sm-9">
+			      <button id="BtnReg" type="submit" class="btn btn-primary">Register
 			      <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
 			      </button>
 			    </div>
 			  </div>
 			</form>
 		</div>
-		<div style="text-align: center; color: blue;">
-			<h4><b>
-				<?php
-					if (isset($_GET["error"])) 
-					{
-						if ($_GET["error"] == "emptyinput")
-						{
-							echo "<p>fields cannot be empty</p>";
-						}
-						elseif ($_GET["error"] == "stmtfailed")
-						{
-							echo "<p>Something went wrong</p>";
-						}
-						elseif ($_GET["error"] == "usernametaken")
-						{
-							echo "<p>Username has been taken</p>";
-						}
-						elseif ($_GET["error"] == "none")
-						{
-							echo "<p>Sign up Succesfully</p>";
-						}
-					}
-				?>
-			</b></h4>
-		</div>
-		
 	</div>
 </div>
 <div class="col-md-3"></div>
 
-
-<?php require_once('admin/modal/message.php'); ?>
-
-<script type="text/javascript" src="../assets/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-
-</body>
+		<script type="text/javascript" src="./assets/js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="./assets/js/toastr.min.js"></script>
+		<script type="text/javascript">
+			function OnRegisterSubmit(frm) {
+				$.post('./process/auth-register.php', $(frm).serialize(), function(res) {
+					if (res.success) {
+						toastr.success(res.message);
+						$("#BtnReg").attr("disabled", true);
+						setTimeout(function(){ 
+							window.location.href = res.returl;
+						 }, 2000);
+					}
+					else{
+						toastr.error(res.message);
+					}
+				});
+				return false;
+			}
+		</script>
+	</body>
 </html>

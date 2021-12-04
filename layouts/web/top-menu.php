@@ -29,10 +29,13 @@
                 <ul class="nav navbar-nav navbar-right">
 
                     <li><a href="./" class="page-scroll">
-                            <h3>View</h3>
+                            <h3>Gallery</h3>
                         </a></li>
                     <li><a href="./about.php" class="page-scroll">
-                            <h3>About & Contact</h3>
+                            <h3>About</h3>
+                        </a></li>
+                        <li><a href="./about.php" class="page-scroll">
+                            <h3>Contact</h3>
                         </a></li>
                     <li><a href="./signup.php" class="page-scroll">
                             <h3>Register</h3>
