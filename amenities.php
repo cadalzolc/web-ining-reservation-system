@@ -3,7 +3,6 @@ include('./includes/conn.php');
 include('./includes/config.php');
 
 session_start();
-session_destroy();
 
 $id = $_GET['id'];
 $date= date('Y-m-d');
@@ -25,7 +24,6 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
         <?php include('./layouts/web/top-menu.php');?>
         <section class="main-start">
             <div class="container" style="padding-top: 30px;">
-
 
                 <?php 
                 
@@ -141,7 +139,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                             $('#Olm').show();
                         });
                     }else {
-                        //direct reservation
+                        OnReserveSubmit(frm);
                     }
                 });
                 return false;
@@ -170,6 +168,19 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                 });
                 return false;
             }
+
+            function OnReserveSubmit(frm) {
+                $.post('./process/form-reserve.php', $(frm).serialize(), function(data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        window.location.href=  "<?php echo BaseURL(); ?>thanks.php?trn=" + data.results.trn + "&date=" + data.results.date + "&name=" + data.results.name;
+                    }else{
+                        toastr.error(data.message);
+                    }
+                });
+                return false;
+            }
+
 
             $(document).on('click', 'button[data-close]', function(){ 
                 $('#Olm').hide();

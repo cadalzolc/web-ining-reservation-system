@@ -10,7 +10,7 @@ if (empty($_SESSION['s-id'])) {
 
 include('./includes/conn.php');
 
-$GLOBALS["active-page"] = "maintenance";
+$GLOBALS["active-page"] = "discounts";
 
 $res =  Execute("SELECT * FROM typ_discount;")
 
@@ -26,6 +26,9 @@ $res =  Execute("SELECT * FROM typ_discount;")
     <div class="container-fluid">
         <div class="col-md-1"></div>
         <div class="col-md-10">
+            <div>
+                <button class="btn btn-primary" onclick="AddDiscount()">Add Discount</button>
+            </div>
             <div id="trans-table">
                 <table id="myTable-trans" class="table table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
@@ -60,15 +63,40 @@ $res =  Execute("SELECT * FROM typ_discount;")
         </div>
         <div class="col-md-1"></div>
     </div>
-
+    <div id="Olm" class="overlay-modal"></div>
     <script type="text/javascript" src="./assets/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./assets/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="./assets/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="./assets/js/toastr.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#myTable-trans').DataTable();
         });
+        function AddDiscount(){
+            $.get('./layouts/forms/dialog-discount.php', function(data) {
+                $('#Olm').empty();
+                $('#Olm').append(data);
+                $('#Olm').show();
+            })
+        }
+        function SaveDiscount(Frm) {
+            $.post('./process/add-discount.php', $(Frm).serialize(), function(res) {
+                if (res.success) {
+                    toastr.success(res.message);
+                    setTimeout(function(){ 
+                        window.location.reload(true);
+                        }, 2000);
+                }
+                else{
+                    toastr.error(res.message);
+                }
+            })
+            return false;
+        }
+        $(document).on('click', 'button[data-close]', function(){ 
+                $('#Olm').hide();
+            }); 
     </script>
 </body>
 

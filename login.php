@@ -1,3 +1,9 @@
+<?php 
+
+include("./includes/config.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="">
 	<head>
@@ -5,9 +11,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>B'ning Resort</title>
-		<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap-theme.min.css">
-		<link rel="stylesheet" type="text/css" href="./assets/css/toastr.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo BaseURL() ?>assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo BaseURL() ?>assets/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo BaseURL() ?>assets/css/toastr.min.css">
 	</head>
 	<body>
 
@@ -15,7 +21,7 @@
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">B'ning Reservation System</a>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="../"><span class="glyphicon glyphicon-backward"></span> Return Home</a></li>
+					<li><a href="./"><span class="glyphicon glyphicon-backward"></span> Return Home</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -62,12 +68,13 @@
 		</div>
 		<div class="col-md-3"></div>
 
-		<script type="text/javascript" src="./assets/js/jquery-3.1.1.min.js"></script>
-		<script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="./assets/js/toastr.min.js"></script>
+		<script type="text/javascript" src="<?php echo BaseURL() ?>assets/js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="<?php echo BaseURL() ?>assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="<?php echo BaseURL() ?>assets/js/toastr.min.js"></script>
+		
 		<script type="text/javascript">
 			function OnLoginSubmit(frm) {
-				$.post('./process/auth-login.php', $(frm).serialize(), function(res) {
+				$.post('<?php echo BaseURL() ?>process/auth-login.php', $(frm).serialize(), function(res) {
 					if (res.success) {
 						toastr.success(res.message);
 						window.location.href = res.returl;

@@ -40,3 +40,21 @@
     color: #ff9800;
     text-decoration: none;
 }
+
+.overlay-modal {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    background: rgba(51, 51, 51, 0.50);
+    z-index: 1100;
+    display: none;
+}
+
+.modal-dialog {
+    padding-top: 50px;
+    max-width: 650px;
+    margin: 0 auto;
+    text-size-adjust: none;
+}

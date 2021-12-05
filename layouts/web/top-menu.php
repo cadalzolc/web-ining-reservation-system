@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <nav class=" nim-menu navbar navbar-default navbar-fixed-top">
 
     <div class="container">
@@ -37,13 +43,42 @@
                         <li><a href="./about.php" class="page-scroll">
                             <h3>Contact</h3>
                         </a></li>
-                    <li><a href="./signup.php" class="page-scroll">
+
+
+                    <?php 
+                    
+                    if (!empty($_SESSION["s-id"])) {
+
+                    ?>
+                    <li style="margin-left: 15px;">Welcome 
+                        <h3><?php echo $_SESSION["s-name"]; ?></h3>
+                    </li>            
+                    <li>
+                        <a href="./dashboard.php" class="page-scroll">
+                            <h3>Go To Dashbaord</h3>
+                        </a>
+
+                    <?php
+                    } 
+                    else 
+                    {  
+                    ?>
+
+                    <li>
+                        <a href="./signup.php" class="page-scroll">
                             <h3>Register</h3>
-                        </a></li>
+                        </a>
+                    </li>
 
                     <li><a href="./login.php/" class="page-scroll">
                             <h3>Login</h3>
                         </a></li>
+
+                    <?php
+                    }
+
+                    ?>
+
 
                 </ul>
         </div>

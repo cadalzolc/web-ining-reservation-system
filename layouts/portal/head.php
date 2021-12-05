@@ -8,4 +8,5 @@
 	<link rel="stylesheet" href="./assets/css/simple-sidebar.css">
 	<link rel="stylesheet" href="./assets/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/css/portal.css">
+	<link rel="stylesheet" href="./assets/css/toastr.min.css">
 </head>
