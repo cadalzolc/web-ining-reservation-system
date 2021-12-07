@@ -1,9 +1,3 @@
-<?php
-
-session_start();
-
-?>
-
 <nav class=" nim-menu navbar navbar-default navbar-fixed-top">
 
     <div class="container">

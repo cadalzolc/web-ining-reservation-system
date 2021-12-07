@@ -1,5 +1,8 @@
 <?php 
 include('./includes/conn.php');
+include('./includes/config.php');
+session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +104,7 @@ include('./includes/conn.php');
                                         </h4>
                                     </div>
                                     <h5 class="product-price fw-normal"> ₱ <?php echo $row['rates']; ?></h5>
-                                    <a class="btn btn-danger" href="./amenities.php?id=<?php echo $row["id"]; ?>">View
+                                    <a class="btn btn-danger" href="./amenities.php?id=<?php echo $row["id"]; ?>&date=<?php echo date('Y-m-d'); ?>">View
                                         Info</a>
                                 </div>
                             </div>
@@ -118,6 +121,7 @@ include('./includes/conn.php');
                     </div><!-- #shop end -->
 
                 </div>
+    
             </div>
 
 

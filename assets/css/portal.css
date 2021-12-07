@@ -58,3 +58,11 @@
     margin: 0 auto;
     text-size-adjust: none;
 }
+
+input[type=date] {
+    line-height: normal !important;
+}
+
+td .btn {
+    border-radius: 0 !important;
+}

@@ -15,7 +15,7 @@ $customer_id = $_SESSION["s-id"];
 $amenity_id = $_POST["AID"];
 $check_in = $_POST["Check-in"];
 $no_units = $_POST["Units"];
-$no_persons = $_POST["Person"];
+$no_persons = 0;
 
 $rev = Execute("CALL sp_add_reservation($amenity_id, $customer_id,  $no_units, '$check_in', $no_persons);");
 $inf = mysqli_fetch_array($rev);

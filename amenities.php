@@ -4,9 +4,15 @@ include('./includes/config.php');
 
 session_start();
 
-$id = $_GET['id'];
-$date= date('Y-m-d');
 $msg = "";
+$date = date('Y-m-d');
+$id = $_GET['id'];
+$req_date = $_GET['date'];
+
+if (!empty($req_date)) {
+    $date = $req_date;
+}
+
 $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
 
 ?>
@@ -52,9 +58,13 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                             <?php echo $row['rates']; ?></div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
-                                        <div class="col-sm-4">Check-In Date</div>
+                                        <div class="col-sm-4">Person Limit</div>
+                                        <div class="col-sm-8"><?php echo $row['person']; ?></div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 7px;">
+                                        <div class="col-sm-4">Check-In Date <?php echo $date; ?></div>
                                         <div class="col-sm-8">
-                                            <input type="date" name="Check-in" class="text-box" min="<?php echo $date; ?>"
+                                            <input type="date" id="CheckIn" name="Check-in" class="text-box" min="<?php echo date('Y-m-d'); ?>"
                                                 value="<?php echo $date; ?>" placeholder="YYYY-MM-DD" />
                                         </div>
                                     </div>
@@ -80,12 +90,6 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                         </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
-                                        <div class="col-sm-4">Persons</div>
-                                        <div class="col-sm-8">
-                                            <input type="number" name="Person" class="text-box" min="1" max="100" value="0" required="" />
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Total</div>
                                         <div class="col-sm-8" data-total="0">
                                             <?php
@@ -98,10 +102,24 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-12" style="text-align: right;">
-                                            <button ype="submit" class="btn btn-primary" name="btn-add"
-                                                style="margin-left: 5px;">Reserved</button>
-                                        </div>
+                                        <?php 
+                                        
+                                            if ($row['available'] <= 0) {
+                                        ?>
+                                            <div class="col-sm-12" style="text-align: right;">
+                                               <p style="color: #d9534f; font-weight: 700;">Please select a new date!</p>
+                                            </div>
+                                        <?php
+                                            } else {
+                                        ?>
+                                            <div class="col-sm-12" style="text-align: right;">
+                                                <button type="submit" class="btn btn-primary" name="btn-add"
+                                                    style="margin-left: 5px;">Reserved</button>
+                                            </div>
+                                        <?php
+                                            }
+                                        
+                                        ?>
                                     </div>
                                     <input type="hidden" name="AID" value="<?php echo $row['id']; ?>" />
                                 </form>
@@ -112,6 +130,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                 
                 ?>
             </div>
+            <input type="hidden" id="RefURL" value="<?php echo BaseURL() . 'amenities.php?id=' . $id ?>" />
         </section>
 
 
@@ -130,10 +149,15 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                 $('div[data-total]').html(total);
             });
 
+
+            $('#CheckIn').on("change", function() {
+                window.location.href = $("#RefURL").val() + "&date=" + $(this).val();
+            });
+
             function OnFormReserve(frm) {
                 $.get('./includes/online.php', function(data) {
                     if (data == 0) {
-                        $.get('./layouts/forms/login.php', $(frm).serialize(), function(data) {
+                        $.get('./layouts/forms/dialog-reserve.php', $(frm).serialize(), function(data) {
                             $('#Olm').empty();
                             $('#Olm').append(data);
                             $('#Olm').show();

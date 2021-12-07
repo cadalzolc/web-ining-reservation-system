@@ -24,7 +24,7 @@ if ($count == 1) {
     $amenity_id = $_POST["T1"];
     $check_in = $_POST["T2"];
     $no_units = $_POST["T3"];
-    $no_persons = $_POST["T4"];
+    $no_persons = 0;
 
     $rev = Execute("CALL sp_add_reservation($amenity_id, $customer_id,  $no_units, '$check_in', $no_persons);");
     $inf = mysqli_fetch_array($rev);

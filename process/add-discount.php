@@ -13,10 +13,13 @@ $data = '{
     "message": "' . $name . '  == ' . $percent . '"
 }';
 
-
-
-//code
-
+if (isset($_POST['SAVE'])){
+    $ame = $_POST ['Name'];
+    $Percent = $post['percent'];
+    
+    $mysqli->query("INSERT INTO data (Name,Percent) VALUES ('$Name','$Percent'")or 
+    die ($mysqli->error);
+}
 header('Content-Type: application/json;');
 
-echo json_encode(json_decode($data), JSON_PRETTY_PRINT);
+echo json_encode(json_decode($data), JSON_PRETTY_PRINT) ;

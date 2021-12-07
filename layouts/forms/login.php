@@ -3,7 +3,7 @@
 $DT_AID = $_GET['AID'];
 $DT_CheckIn = $_GET['Check-in'];
 $DT_Units = $_GET['Units'];
-$DT_Person = $_GET['Person'];
+$DT_Person = 0;
 
 echo '
 <div class="modal-dialog" method="POST" ">
