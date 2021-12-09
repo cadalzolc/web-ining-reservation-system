@@ -25,44 +25,20 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
     <div class="container-fluid">
         <div class="col-md-1"></div>
         <div class="col-md-10">
+        <div>
+                <button class="btn btn-primary" onclick="AddAmenity()">Add Item</button>
+            </div>
             <div id="trans-table">
                 <table id="myTable-trans" class="table table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
-                        <tr>                             
+                        <tr>     
+                            <th>No</th>                        
                             <th>Amenity Type</th>
-                            <th>No Available</th>
-                            <th>Price</th>     
+                            <th>Available</th>
+                            <th>Price</th>       
                             <th style="width: 35px !important;"></th> 
                             <div class="modal-dialog">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-12"> 
-                            <h1 class="form-title">ADD DISCOUNT</h1>
-                    <form class="form-horizontal form-info" method="POST" onsubmit="return SaveDiscount(this);" style="margin-bottom: 10px;">
-                        <div class="row" style="padding-bottom: 7px;">
-                            <div class="col-sm-5">Description</div>
-                            <div class="col-sm-7">
-                                <input class="form-input" type="text" name="Name" value="" required=""/>
-                            </div>
-                        </div>
-                        <div class="row" style="padding-bottom: 7px;">
-                            <div class="col-sm-5">Percent</div>
-                            <div class="col-sm-7"">
-                                <input  class="form-input" type="number" name="Percent" value="" required="" min="1" max="100"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12" style="float: right; padding: 5px 15px;">
-                                <button type="submit" class="btn btn-primary" style="font-size: 12px;">Save</button>
-                                <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Close</button>
-                            </div>
-                        </div>
-                    </form>
-
-                        </tr>
-                    </thead>
-                    <tbody>
+                            
                         <?php 
                             $cnt =  1;
                             foreach($res as $t): 
@@ -70,6 +46,7 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
                         <tr>
                             <td><?= $cnt; ?></td>
                             <td><?= $t['name']; ?></td>
+                            <td><?= $t['unit']; ?></td>
                             <td><?= $t['rates']; ?></td>
                             <td>
                                 
@@ -77,11 +54,12 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
                             
                             <td style="padding: 3px;">
                                 <button type="button" class="btn btn-success btn-xs"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">Update</button>
+                                    style="height: 100% !important; width: 100%; line-height: 2;"
+                                    onclick="UpdateAmenity(<?= $t['id'] ?>)">Update</button>
                             </td>
                             <td style="padding: 3px;">
                                 <button type="button" class="btn btn-success btn-xs"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">Delete</button>
+                                    style="height: 100% !important; width: 100%; line-height: 2;">Disabled</button>
                             </td>
                         </tr>
 
@@ -104,6 +82,52 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
         $(document).ready(function () {
             $('#myTable-trans').DataTable();
         });
+
+        function AddAmenity() {
+            $.get('./layouts/forms/dialog-add-am.php', function (data) {
+                $('#Olm').empty();
+                $('#Olm').append(data);
+                $('#Olm').show();
+            })
+        }
+
+        function SaveDiscount(Frm) {
+            $.post('./process/add-amenity.php', $(Frm).serialize(), function (res) {
+                if (res.success) {
+                    toastr.success(res.message);
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 2000);
+                } else {
+                    toastr.error(res.message);
+                }
+            })
+            return false;
+        }
+        function UpdateAmenity(n) {
+            $.get('./layouts/forms/dialog-upd-am.php', {
+                id: n
+            }, function (data) {
+                $('#Olm').empty();
+                $('#Olm').append(data);
+                $('#Olm').show();
+            })
+        }
+
+        function SaveAmenityUpdate(Frm) {
+            $.post('./process/upd-amenity.php', $(Frm).serialize(), function (res) {
+                if (res.success) {
+                    toastr.success(res.message);
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 2000);
+                } else {
+                    toastr.error(res.message);
+                }
+            });
+            return false;
+        }
+        
     </script>
 </body>
 

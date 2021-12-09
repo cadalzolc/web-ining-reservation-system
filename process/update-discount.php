@@ -6,7 +6,7 @@ include('../includes/conn.php');
 
 $name = $_POST["Name"];
 $percent = $_POST["Percent"];
-
+$id =  $_POST["id"];
 
 $data = '{
     "success": false,
@@ -15,12 +15,12 @@ $data = '{
 
 $disc = ($percent / 100);
 
-$res = Execute("call sp_add_discount('$name', $disc)");
+$res = Execute("UPDATE typ_discount SET name='$name', percent=$disc WHERE id = $id");
 
 if ($res){
     $data = '{
         "success": true,
-        "message": "Successfully Added"
+        "message": "success"
     }';
 }
 

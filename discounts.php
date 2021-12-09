@@ -19,6 +19,7 @@ $res =  Execute("SELECT * FROM typ_discount;")
 <!DOCTYPE html>
 <html lang="">
 <?php include("./layouts/portal/head.php") ?>
+
 <body>
 
     <?php include("./layouts/portal/menu.php") ?>
@@ -48,10 +49,12 @@ $res =  Execute("SELECT * FROM typ_discount;")
                             <td><?= $cnt; ?></td>
                             <td><?= $t['name']; ?></td>
                             <td>
-                                <span class="badge badge-pill badge-success"><?= $t['percent']; ?></span>
+                                <span class="badge badge-pill badge-success"><?= $t['percent'] * 100; ?>%</span>
                             </td>
                             <td style="padding: 3px;">
-                            <button type="button" class="btn btn-success btn-xs" style="height: 100% !important; width: 100%; line-height: 2;">Update</button>
+                                <button type="button" class="btn btn-success btn-xs"
+                                    style="height: 100% !important; width: 100%; line-height: 2;"
+                                    onclick="UpdateDiscount(<?= $t['id'] ?>)">Update</button>
                             </td>
                         </tr>
                         <?php 
@@ -73,30 +76,57 @@ $res =  Execute("SELECT * FROM typ_discount;")
         $(document).ready(function () {
             $('#myTable-trans').DataTable();
         });
-        function AddDiscount(){
-            $.get('./layouts/forms/dialog-discount.php', function(data) {
+
+        function AddDiscount() {
+            $.get('./layouts/forms/dialog-discount.php', function (data) {
                 $('#Olm').empty();
                 $('#Olm').append(data);
                 $('#Olm').show();
             })
         }
+
         function SaveDiscount(Frm) {
-            $.post('./process/add-discount.php', $(Frm).serialize(), function(res) {
+            $.post('./process/add-discount.php', $(Frm).serialize(), function (res) {
                 if (res.success) {
                     toastr.success(res.message);
-                    setTimeout(function(){ 
+                    setTimeout(function () {
                         window.location.reload(true);
-                        }, 2000);
-                }
-                else{
+                    }, 2000);
+                } else {
                     toastr.error(res.message);
                 }
             })
             return false;
+
         }
-        $(document).on('click', 'button[data-close]', function(){ 
-                $('#Olm').hide();
-            }); 
+
+        function UpdateDiscount(n) {
+            $.get('./layouts/forms/dialog-upd-disc.php', {
+                id: n
+            }, function (data) {
+                $('#Olm').empty();
+                $('#Olm').append(data);
+                $('#Olm').show();
+            })
+        }
+
+        function SaveDiscountUpdate(Frm) {
+            $.post('./process/update-discount.php', $(Frm).serialize(), function (res) {
+                if (res.success) {
+                    toastr.success(res.message);
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 2000);
+                } else {
+                    toastr.error(res.message);
+                }
+            });
+            return false;
+        }
+
+        $(document).on('click', 'button[data-close]', function () {
+            $('#Olm').hide();
+        });
     </script>
 </body>
 

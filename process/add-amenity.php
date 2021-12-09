@@ -5,22 +5,21 @@ session_start();
 include('../includes/conn.php');
 
 $name = $_POST["Name"];
-$percent = $_POST["Percent"];
-
+$Rate = $_POST["Rate"];
+$PersonLimit = $_POST["Person Limit"];
+$Units = $_POST["Unit"];
 
 $data = '{
     "success": false,
-    "message": "' . $name . '  == ' . $percent . '"
+    "message": "' . $name . '==' . $rate. '==' . $person_limit . '==' . $unit. '"
 }';
 
-$disc = ($percent / 100);
-
-$res = Execute("call sp_add_discount('$name', $disc)");
+$res = Execute("call sp_add_amenity('$name', $rate, $person_limit,$unit)");
 
 if ($res){
     $data = '{
         "success": true,
-        "message": "Successfully Added"
+        "message": "success"
     }';
 }
 

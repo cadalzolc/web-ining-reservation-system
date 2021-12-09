@@ -10,7 +10,6 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 			<th style="width: 60px;">Booked Id</th>
 			<th>Date</th>
 			<th>Customer</th>
-			<th>Pack</th>
 			<th>Aminity</th>
 			<th>Amount</th>
 			<th>Units</th>
@@ -30,8 +29,7 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 			<td><?= $cnt; ?></td>
 			<td>RS<?php echo 1000 +  $t['id'];?></td>
 			<td><?= $t['date']; ?></td>
-			<td><?= $t['customer']; ?></td>
-			<td class="text-center"><?= $t['no_persons']; ?></td>
+			<td><?= $t['customer']; ?></td>		
 			<td><?= $t['aminity']; ?></td>
 			<td><?= $t['amount']; ?></td>
 			<td><?= $t['no_units']; ?></td>

@@ -32,10 +32,10 @@
                             <h3>Gallery</h3>
                         </a></li>
                     <li><a href="./about.php" class="page-scroll">
-                            <h3>About</h3>
+                            <h3>Contact us</h3>
                         </a></li>
                         <li><a href="./about.php" class="page-scroll">
-                            <h3>Contact</h3>
+                            <h3>About</h3>
                         </a></li>
 
 

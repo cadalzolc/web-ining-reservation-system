@@ -59,7 +59,7 @@ $results = Execute("CALL sp_get_aminity_info_today($id, '$date');");
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Person Limit</div>
-                                        <div class="col-sm-8"><?php echo $row['person']; ?></div>
+                                        <div class="col-sm-8"><?php echo $row['person_limit']; ?></div>
                                     </div>
                                     <div class="row" style="padding-bottom: 7px;">
                                         <div class="col-sm-4">Check-In Date <?php echo $date; ?></div>

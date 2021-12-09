@@ -19,7 +19,6 @@ $res =  Execute("CALL sp_get_customer_reservation($id);");
                             <th>Check-In</th>
                             <th>Amenity Type</th>
                             <th>Units</th>
-                            <th>Persons</th>
                             <th>Amount</th>
                             <th>Status</th>
                             <th style="width: 35px !important;"></th>
@@ -35,7 +34,6 @@ $res =  Execute("CALL sp_get_customer_reservation($id);");
                             <td><?= $t['check_in']; ?></td>
                             <td><?= $t['aminity']; ?></td>
                             <td><?= $t['no_units']; ?></td>
-                            <td><?= $t['no_persons']; ?></td>
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['status']; ?></td>
                            

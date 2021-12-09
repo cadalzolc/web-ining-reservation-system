@@ -5,22 +5,25 @@ session_start();
 include('../includes/conn.php');
 
 $name = $_POST["Name"];
-$percent = $_POST["Percent"];
-
+$photo = $_POST["photo"];
+$rates =  $_POST["rates"];
+$status = $_POST["status"];
+$person = $_POST["person_liumit"];
+$id =  $_POST["id"];
 
 $data = '{
     "success": false,
     "message": "' . $name . '  == ' . $percent . '"
 }';
 
-$disc = ($percent / 100);
 
-$res = Execute("call sp_add_discount('$name', $disc)");
+$res = Execute("UPDATE lst_aminities  SET name='$name',photo = '$photo',rates = $rates ,status = '$status',
+Person = '$person_limit'  WHERE id = $id");
 
 if ($res){
     $data = '{
         "success": true,
-        "message": "Successfully Added"
+        "message": "success"
     }';
 }
 
