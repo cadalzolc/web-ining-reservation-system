@@ -56,9 +56,12 @@
     $(document).on('click', 'button[data-close]', function(){ 
         $('#Olm').hide();
     }); 
+
+    let buttonText = "";
     
     function OnFormSubmitNotify(Frm) {
-        $.post('./process/reservation-notify.php?', $(Frm).serialize(), function(data) {
+        var nxt = "&submit=" + buttonText
+        $.post('./process/reservation-notify.php?', $(Frm).serialize() + nxt, function(data) {
             if (data.success) {
                 toastr.success(data.message);
                 setTimeout(function(){ 
@@ -84,6 +87,10 @@
         });
         return false;
     }
+
+    $(document).on('click', 'button[data-submit]', function() {
+        buttonText = $(this).val();
+    });
 
 
     function numberWithCommas(number) {

@@ -14,12 +14,35 @@ foreach($res as $row):
     $opt_discount = $opt_discount . '<option data-percent="' . $row["percent"] .'" value="' . $row["id"] .'">' . $row["name"] .'</option>';
 endforeach;
 
+$good = $info['available'] >= $info['no_units'];
+
+$btn = "";
+$msg = "";
+if ($good == true) {
+    $btn = '<button type="submit" name="submit" value="good" data-submit="good" class="btn btn-primary" style="font-size: 12px;">Confirm Reservation</button>';
+}else {
+    $btn = '<button type="submit" name="submit" value="notify" data-submit="notify" class="btn btn-primary" style="font-size: 12px;">Notify Customer</button>';
+    $msg = "Sorry, this reservation cannot be served, the reserved unit count is greater than available stock (" . $info['available'] .").";
+}
+
+
+$opt_units = "";
+
+for($i = 1; $i <= $info['available']; $i++) {
+    if ($info['no_units'] == $i) {
+        $opt_units = $opt_units . '<option selected value="'. $i .'">'. $i .'</option>';
+    } else {
+        $opt_units = $opt_units . '<option value="'. $i .'">'. $i .'</option>';
+    }
+}
+
 echo $RV_ID  .'
 <div class="modal-dialog">
     <div class="panel panel-default">
         <div class="panel-body">
             <h3 class="form-title-child" style="margin-bottom: 10px; display: flex;">Reservation Details</h3>
             <form class="form-horizontal form-info" method="POST" onsubmit="return OnFormSubmitNotify(this);" style="margin-bottom: 10px;">
+                <input type="hidden" name="original" value="' . $info['no_units'] . '" />
                 <div class="row" style="margin-bottom: 5px;">
                     <div class="col-sm-2">No:</div>
                     <div class="col-sm-4">
@@ -37,7 +60,8 @@ echo $RV_ID  .'
                         </div>
                     <div class="col-sm-2">Units:</div>
                     <div class="col-sm-4">
-                        <input class="form-input" type="Units" name="RevUnits" value="'. $info["no_units"] .'" readonly="" style=" width: 100%;"/>
+                    <input class="form-input" value="'. $info["no_units"] .'" style=" width: 70px; text-align: center; color: #2e6da4; font-weight: bold;">
+                        <select class="form-input" type="Units" name="RevUnits" required="" style=" width: 95px; padding: 4px;">'. $opt_units  .'</select>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 5px;">
@@ -76,9 +100,11 @@ echo $RV_ID  .'
                         <input class="form-input" type="text" id="Total" name="Total" value="'. $info["amount"] .'" readonly="" style=" width: 100%; text-align: right; font-weight: bold; color: #d9534f;" placeholde="yyyy-mm-dd">
                     </div>
                 </div>
+                <div style="color: #bf2222;">' . $msg . '</div>
                 <div class="row" style="margin-bottom: 5px; display: block;">
                     <div class="col-lg-12" style="float: right; padding: 5px 15px;">
-                        <button type="submit" class="btn btn-primary" style="font-size: 12px;">Notify Notification</button>
+                        ' . $btn . '
+                        <button type="submit" name="submit" data-submit="cancel" value="cancel" class="btn btn-danger" style="font-size: 12px;">Cancel Reservation</button>
                         <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Close</button>
                     </div>
                 </div>

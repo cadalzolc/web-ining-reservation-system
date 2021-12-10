@@ -7,13 +7,32 @@ include('../includes/conn.php');
 $idx = $_POST["RevNo"];
 $amount = $_POST["Amount"];
 $name = $_POST["Customer"];
+$original = $_POST["original"];
+$units = $_POST["RevUnits"];
+$submit = $_POST['submit'];
 
 $data = '{
     "success": false,
-    "message": "Something went wrong "
+    "message": "Something went wrong ' . $submit . '"
 }';
 
-$res = Execute("CALL sp_update_reservation_status('$idx', 'S');");
+$sql = "";
+$msg = "";
+
+switch ($submit) {
+    case "good":
+    case "notify":
+        $sql = "CALL sp_update_reservation_with_changes('$idx', 'S', $original, $units);";
+        $msg = " Successfully process and sent notification to customer";
+        break; 
+    default:
+        $sql = "CALL sp_update_reservation_with_changes('$idx', 'X', $original, $units);";
+        $msg = "Successfully cancelled";
+        break; 
+}
+
+
+$res = Execute($sql);
 
 if ($res) {
 
@@ -21,9 +40,10 @@ if ($res) {
 
     $data = '{
         "success": true,
-        "message": "Reservation notification was successfuly sent to customer"
+        "message": "' . $msg  .'"
     }';
 }
+
 
 header('Content-Type: application/json;');
 

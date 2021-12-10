@@ -10,9 +10,9 @@ if (empty($_SESSION['s-id'])) {
 
 include('./includes/conn.php');
 
-$GLOBALS["active-page"] = "customers";
-
-$res =  Execute("SELECT * FROM vw_trn_reservations;")
+$GLOBALS["active-page"] = "customer-info";
+$id = $_GET['id'];
+$res =  Execute("SELECT * FROM vw_trn_reservations where cs_id = $id;")
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,6 @@ $res =  Execute("SELECT * FROM vw_trn_reservations;")
                             <th>Amount</th>
                             <th>Units</th>
                             <th>Check-In</th>
-                            <th style="width: 35px !important;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,10 +57,6 @@ $res =  Execute("SELECT * FROM vw_trn_reservations;")
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['no_units']; ?></td>
                             <td><?= $t['check_in']; ?></td>
-                            <td style="padding: 3px;">
-                                <a type="button" class="btn btn-success btn-xs" href="./customers-info.php?id=<?= $t['cs_id'];  ?>"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">View</a>
-                            </td>
                         </tr>
                         <?php 
                             $cnt++;
@@ -73,13 +68,7 @@ $res =  Execute("SELECT * FROM vw_trn_reservations;")
         <div class="col-md-1"></div>
     </div>
 
-    <?php include('./layouts/portal/scripts.php'); ?>
-    
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#myTable-trans').DataTable();
-        });
-    </script>
+    <?php include('./layouts/portal/scripts.php'); ?>                   
 </body>
 
 </html>

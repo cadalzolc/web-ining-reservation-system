@@ -5,20 +5,19 @@ session_start();
 include('../includes/conn.php');
 
 $name = $_POST["Name"];
-$photo = $_POST["photo"];
-$rates =  $_POST["rates"];
-$status = $_POST["status"];
-$person = $_POST["person_liumit"];
+$person_limit = $_POST["capacity"];
+$unit = $_POST["available"];
+$rates = $_POST["rate"];
 $id =  $_POST["id"];
 
 $data = '{
     "success": false,
-    "message": "' . $name . '  == ' . $percent . '"
+    "message": "UNSUCCESSFUL"
 }';
 
 
-$res = Execute("UPDATE lst_aminities  SET name='$name',photo = '$photo',rates = $rates ,status = '$status',
-Person = '$person_limit'  WHERE id = $id");
+$res = Execute("UPDATE sp_update_amenity SET name='$name',capacity = $person_limit, available = $unit,rate = $rates
+ WHERE id = $id");
 
 if ($res){
     $data = '{

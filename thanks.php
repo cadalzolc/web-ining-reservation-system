@@ -36,6 +36,12 @@ $name = $_REQUEST['name'];
                             <p> Reservation No: <strong><?php echo $reservation_no; ?></strong>
                             <p> Check-in Date : <strong><?php echo $checkin_date; ?></strong>
                         </div>
+                        <div>
+                        <a href="./process/auth-logout.php">
+				<strong style="margin-right: 10px;">Hi, <?php echo $_SESSION['s-name']; ?></strong>
+				<span class="glyphicon glyphicon-log-out"></span> Logout?
+			</a>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -35,9 +35,10 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
                             <th>No</th>                        
                             <th>Amenity Type</th>
                             <th>Available</th>
+                            <th>Capacity</th>
                             <th>Price</th>       
-                            <th style="width: 35px !important;"></th> 
-                            <div class="modal-dialog">
+                            <th colspan="2"></th> 
+                     
                             
                         <?php 
                             $cnt =  1;
@@ -47,11 +48,8 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
                             <td><?= $cnt; ?></td>
                             <td><?= $t['name']; ?></td>
                             <td><?= $t['unit']; ?></td>
+                            <td><?= $t['person_limit']; ?></td>     
                             <td><?= $t['rates']; ?></td>
-                            <td>
-                                
-                            </td>
-                            
                             <td style="padding: 3px;">
                                 <button type="button" class="btn btn-success btn-xs"
                                     style="height: 100% !important; width: 100%; line-height: 2;"
@@ -73,11 +71,8 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
         </div>
         <div class="col-md-1"></div>
     </div>
-
-    <script type="text/javascript" src="./assets/js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./assets/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="./assets/js/dataTables.bootstrap.min.js"></script>
+    <div id="Olm" class="overlay-modal"></div>
+    <?php include('./layouts/portal/scripts.php'); ?>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#myTable-trans').DataTable();
@@ -91,7 +86,7 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
             })
         }
 
-        function SaveDiscount(Frm) {
+        function SaveAmenityAdd(Frm) {
             $.post('./process/add-amenity.php', $(Frm).serialize(), function (res) {
                 if (res.success) {
                     toastr.success(res.message);
@@ -127,6 +122,10 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
             });
             return false;
         }
+
+        $(document).on('click', 'button[data-close]', function () {
+            $('#Olm').hide();
+        });
         
     </script>
 </body>

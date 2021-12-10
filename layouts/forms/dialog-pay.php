@@ -11,7 +11,7 @@ echo $RV_ID  .'
 <div class="modal-dialog">
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="form-title-child" style="margin-bottom: 10px; display: flex;">Reservation Details</h3>
+            <h3 class="form-title-child" style="display: flex; margin-bottom: 10px; background: #5cb85c; padding: 15px;">Confirm Pay Reservation</h3>
             <form class="form-horizontal form-info" method="POST" onsubmit="return OnFormSubmitPay(this);" style="margin-bottom: 10px;">
                 <div class="row" style="margin-bottom: 5px;">
                     <div class="col-sm-2">No:</div>

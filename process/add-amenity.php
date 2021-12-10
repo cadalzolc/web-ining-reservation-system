@@ -4,22 +4,23 @@ session_start();
 
 include('../includes/conn.php');
 
-$name = $_POST["Name"];
-$Rate = $_POST["Rate"];
-$PersonLimit = $_POST["Person Limit"];
-$Units = $_POST["Unit"];
+$name = $_POST["name"];
+$rates = $_POST["rate"];
+$unit = $_POST["available"];
+$person_limit = $_POST["capacity"];
+$typeid = $_POST["type"];
 
 $data = '{
     "success": false,
-    "message": "' . $name . '==' . $rate. '==' . $person_limit . '==' . $unit. '"
+    "message": "Error"
 }';
 
-$res = Execute("call sp_add_amenity('$name', $rate, $person_limit,$unit)");
+$res = Execute("call sp_add_amenity('$name', $rates, $unit, $person_limit, $typeid)");
 
-if ($res){
+if ($res) {
     $data = '{
         "success": true,
-        "message": "success"
+        "message": "Successfully Added"
     }';
 }
 

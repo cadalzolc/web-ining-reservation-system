@@ -18,17 +18,32 @@ echo '
                     <h1 class="form-title">Update Amenity</h1>
                     <form class="form-horizontal form-info" method="POST" onsubmit="return SaveAmenityUpdate(this);" style="margin-bottom: 10px;">
                         <div class="row" style="padding-bottom: 7px;">
-                            <div class="col-sm-5">Description</div>
+                            <div class="col-sm-5">Aminity type</div>
                             <div class="col-sm-7">
                                 <input class="form-input" type="text" name="Name" value="' . $info["name"] . '" required=""/>
                             </div>
                         </div>
                         <div class="row" style="padding-bottom: 7px;">
-                            <div class="col-sm-5">Percent</div>
-                            <div class="col-sm-7"">
-                                <input  class="form-input" type="number" name="rate" value="' . $info["rate"] . '" required="" min="1" max="100"/>
+                        <div class="col-sm-5">Capacity</div>
+                        <div class="col-sm-7">
+                            <input class="form-input" type="text" name="Name" value="' . $info["person_limit"] . '" required=""/>
+                        </div>
+                    </div>
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Available</div>
+                            <div class="col-sm-7">
+                                <input class="form-input" type="text" name="Name" value="' . $info["unit"] . '" required=""/>
                             </div>
                         </div>
+                      
+                        <div class="row" style="padding-bottom: 7px;">
+                            <div class="col-sm-5">Price</div>
+                            <div class="col-sm-7">
+                                <input class="form-input" type="text" name="Name" value="' . $info["rates"] . '" required=""/>
+                            </div>
+                        </div>
+
+                         
                         <div class="row">
                             <div class="col-lg-12" style="float: right; padding: 5px 15px;">
                                 <button type="submit" class="btn btn-primary" style="font-size: 12px;">Save</button>
