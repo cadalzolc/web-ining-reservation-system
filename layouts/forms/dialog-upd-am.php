@@ -41,9 +41,7 @@ echo '
                             <div class="col-sm-7">
                                 <input class="form-input" type="text" name="Name" value="' . $info["rates"] . '" required=""/>
                             </div>
-                        </div>
-`
-                         
+                        </div>                      
                         <div class="row">
                             <div class="col-lg-12" style="float: right; padding: 5px 15px;">
                                 <button type="submit" class="btn btn-primary" style="font-size: 12px;">Update</button>

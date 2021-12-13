@@ -14,7 +14,7 @@
         CURLOPT_HTTPHEADER => array(
             "cache-control: no-cache"
         ),
-        CURLOPT_POSTFIELDS => json_encode('{ "outboundSMSMessageRequest": { "clientCorrelator": "21666274", "senderAddress": "6274", "outboundSMSTextMessage": {"message": "From Resort"}, "address": "9055576257" } }'),
+        CURLOPT_POSTFIELDS => json_encode('{ "outboundSMSMessageRequest": { "address": "9055576257", "clientCorrelator": "21666274", "senderAddress": "6274", "outboundSMSTextMessage": {"message": "From Resort"} } }'),
     ));
 
     $response = curl_exec($curl);

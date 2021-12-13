@@ -31,6 +31,7 @@
 				<a class="dropdown-item" href="./customers.php">Customers</a>
 				<a class="dropdown-item" href="./aminities-list.php">Aminities</a>
 				<a class="dropdown-item" href="./discounts.php">Discounts</a>
+				<a class="dropdown-item" href="./aminities-type.php">Aminities Type</a>
 			</div>
 		</li>
 		<li class="<?php if ($GLOBALS["active-page"] == "reports") { echo "active"; } ?>">
