@@ -54,14 +54,9 @@ $res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
                                 <button type="button" class="btn btn-success btn-xs"
                                     style="height: 100% !important; width: 100%; line-height: 2;"
                                     onclick="UpdateAmenity(<?= $t['id'] ?>)">Update</button>
-                            </td>
-                            <td style="padding: 3px;">
-                                <button type="button" class="btn btn-success btn-xs"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">Disabled</button>
-                            </td>
-                        </tr>
 
-                        
+                                   </td>  
+                                   </tr>
                         <?php 
                             $cnt++;
                             endforeach; ?>

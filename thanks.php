@@ -5,6 +5,7 @@ session_start();
 $reservation_no = $_REQUEST['trn'];
 $checkin_date = $_REQUEST['date'];
 $name = $_REQUEST['name'];
+$user_id = $_REQUEST['user'];
 
 ?>
 

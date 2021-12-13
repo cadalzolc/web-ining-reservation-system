@@ -42,12 +42,13 @@ echo '
                                 <input class="form-input" type="text" name="Name" value="' . $info["rates"] . '" required=""/>
                             </div>
                         </div>
-
+`
                          
                         <div class="row">
                             <div class="col-lg-12" style="float: right; padding: 5px 15px;">
-                                <button type="submit" class="btn btn-primary" style="font-size: 12px;">Save</button>
+                                <button type="submit" class="btn btn-primary" style="font-size: 12px;">Update</button>
                                 <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Close</button>
+                                <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Disable</button>
                             </div>
                         </div>
                         <input type="hidden" name="id" value="'. $id  .'" />
