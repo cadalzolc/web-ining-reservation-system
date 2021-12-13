@@ -10,9 +10,9 @@ if (empty($_SESSION['s-id'])) {
 
 include('./includes/conn.php');
 
-$GLOBALS["active-page"] = "discounts";
+$GLOBALS["active-page"] = "Amenity Type";
 
-$res =  Execute("SELECT * FROM typ_discount;")
+$res =  Execute("SELECT * FROM typ_aminities;")
 
 ?>
 
@@ -49,7 +49,7 @@ $res =  Execute("SELECT * FROM typ_discount;")
                             <td><?= $cnt; ?></td>
                             <td><?= $t['name']; ?></td>
                             <td>
-                                <span class="badge badge-pill badge-success"></span>
+                            <?= $t['rates']; ?>
                             </td>
                             <td style="padding: 3px;">
                                 <button type="button" class="btn btn-success btn-xs"
@@ -81,8 +81,8 @@ $res =  Execute("SELECT * FROM typ_discount;")
             })
         }
 
-        function SaveDiscount(Frm) {
-            $.post('./process/add-discount.php', $(Frm).serialize(), function (res) {
+        function SaveAminityType(Frm) {
+            $.post('./process/add-aminity-type.php', $(Frm).serialize(), function (res) {
                 if (res.success) {
                     toastr.success(res.message);
                     setTimeout(function () {

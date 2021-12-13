@@ -7,14 +7,13 @@ include('../includes/conn.php');
 $name = $_POST["Name"];
 $rate = $_POST["Rate"];
 
-
 $data = '{
     "success": false,
     "message": "ERROR"
 }';
 
 
-$res = Execute("call sp_add_amenity('$name', '$rate')");
+$res = Execute("call sp_add_amenity_type('$name', $rate)");
 
 if ($res){
     $data = '{

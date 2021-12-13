@@ -7,7 +7,7 @@ echo '
             <div class="row">
                 <div class="col-sm-12">
                     <h1 class="form-title">ADD Item</h1>
-                    <form class="form-horizontal form-info" method="POST" onsubmit="return SaveItem(this);" style="margin-bottom: 10px;">
+                    <form class="form-horizontal form-info" method="POST" onsubmit="return SaveAmenityAdd(this);" style="margin-bottom: 10px;">
                         <div class="row" style="padding-bottom: 7px;">
                             <div class="col-sm-5">Description</div>
                             <div class="col-sm-7">

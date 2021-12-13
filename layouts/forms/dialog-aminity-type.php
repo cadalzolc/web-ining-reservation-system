@@ -7,7 +7,7 @@ echo '
             <div class="row">
                 <div class="col-sm-12">
                     <h1 class="form-title">ADD AMENITY</h1>
-                    <form class="form-horizontal form-info" method="POST" onsubmit="return SaveAmenity(this);" style="margin-bottom: 10px;">
+                    <form class="form-horizontal form-info" method="POST" onsubmit="return SaveAminityType(this);" style="margin-bottom: 10px;">
                         <div class="row" style="padding-bottom: 7px;">
                             <div class="col-sm-5">Name</div>
                             <div class="col-sm-7">
@@ -17,7 +17,7 @@ echo '
                         <div class="row" style="padding-bottom: 7px;">
                             <div class="col-sm-5">Rate</div>
                             <div class="col-sm-7"">
-                                <input  class="form-input" type="number" name="Percent" value="" required="" min="1" max="100"/>
+                                <input  class="form-input" type="number" name="Rate" value="" required="" min="1" max="100"/>
                             </div>
                         </div>
                         <div class="row">
