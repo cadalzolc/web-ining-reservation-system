@@ -54,7 +54,7 @@ $res =  Execute("SELECT * FROM typ_aminities;")
                             <td style="padding: 3px;">
                                 <button type="button" class="btn btn-success btn-xs"
                                     style="height: 100% !important; width: 100%; line-height: 2;"
-                                    onclick="UpdateAmenity(<?= $t['id'] ?>)">Update</button>
+                                    onclick="UpdateAmenityType(<?= $t['id'] ?>)">Update</button>
                             </td>
                         </tr>
                         <?php 
@@ -96,8 +96,8 @@ $res =  Execute("SELECT * FROM typ_aminities;")
 
         }
 
-        function UpdateDiscount(n) {
-            $.get('./layouts/forms/dialog-upd-disc.php', {
+        function UpdateAmenityType(n) {
+            $.get('./layouts/forms/dialog-upd-am-typ.php', {
                 id: n
             }, function (data) {
                 $('#Olm').empty();
@@ -106,8 +106,8 @@ $res =  Execute("SELECT * FROM typ_aminities;")
             })
         }
 
-        function SaveDiscountUpdate(Frm) {
-            $.post('./process/update-discount.php', $(Frm).serialize(), function (res) {
+        function SaveAmenityTypeUpdate(Frm) {
+            $.post('./process/upd-amenity-type.php', $(Frm).serialize(), function (res) {
                 if (res.success) {
                     toastr.success(res.message);
                     setTimeout(function () {

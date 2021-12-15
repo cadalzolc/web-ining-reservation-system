@@ -3,37 +3,30 @@
 session_start();
 
 include('../includes/conn.php');
-    $id = $_GET['id'];
-    $qry = mysqli_query($db,"SELECT * FROM typ_aminities where id ='$id'");
-    $info = mysqli_fetch_assoc($res_info);
-  
-    if(isset($_POST['update']))
 
-        {
-            $name = $_POST["Name"];
-            $rates = $_POST["rates"];
-            $unit = $_POST["available"];
-            $person_limit = $_POST["capacity"];
-            $type_id =  $_POST["type"];
+$name = $_POST["Name"];
+$rates = $_POST["Rates"];
+$unit = $_POST["Available"];
+$person_limit = $_POST["Capacity"];
+$type_id =  $_POST["Type"];
+$id =  $_POST["Id"];
 
-        $data = '{
-            "success": false,
-            "message": "UNSUCCESSFUL UPDATE"
-        }';
+$data = '{
+"success": false,
+"message": "Please Try Again"
+}';
 
-            $res = Execute ("call sp_update_amenity SET name='$name',rates = $rates,available = $unit,
-            capacity = $person_limit,type = $typeid WHERE id = $id");
+$res = Execute("CALL sp_update_amenity($id, '$name', $rates, $unit, $person_limit, $type_id)");
 
-        if ($res)
-        {
-            $data = '{
-                "success": true,
-                "message": "success"
-            }';
-        }
-        {
-        header('Content-Type: application/json;');
+if ($res){
+    $data = '{
+        "success": true,
+        "message": "Successfully Updated"
+    }';
 
-        echo json_encode(json_decode($data), JSON_PRETTY_PRINT) ;
+}
 
-        }}
+header('Content-Type: application/json;');
+
+echo json_encode(json_decode($data), JSON_PRETTY_PRINT) ;
+        

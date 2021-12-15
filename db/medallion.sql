@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2021 at 01:25 AM
+-- Generation Time: Dec 15, 2021 at 04:36 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -25,6 +25,18 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_amenity` (`p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type` INT(11))  BEGIN
+
+	INSERT INTO lst_aminities (name, rates, unit, person_limit, type_id, photo, status, active, discount_id) 
+    VALUES  (p_name, p_rates, p_unit, p_person_limit, p_type, 'default.jpg', 'A', 1, 1);
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_aminity_type` (`p_name` VARCHAR(40), `p_rate` DECIMAL(10,2))  BEGIN
+
+	INSERT INTO typ_aminities (name, rates) VALUES (p_name, p_rate);    
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_discount` (`p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
 
 	INSERT INTO typ_discount (name, percent) VALUES  (p_name, p_percent);
@@ -73,16 +85,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_aminity_info_today` (`p_id` 
         `la`.`name` AS `name`,
         `la`.`photo` AS `photo`,
         `la`.`rates` AS `rates`,
-        `la`.`person` AS `person`,
+        `la`.`person_limit` AS `person_limit`,
         `la`.`status` AS `status`,
         `la`.`unit` AS `unit`,
         `la`.`discount_id` AS `discount_id`,
         `td`.`name` AS `discount`,
         `td`.`percent` AS `percent`,
         `la`.`active` AS `active`,
-        (SELECT COUNT(*) AS N 
+        (SELECT  (CASE ISNULL(SUM(tr.no_units)) WHEN 1 THEN 0 ELSE SUM(tr.no_units) END) 
 		FROM trn_schedule ts 
-		WHERE ts.am_id = la.id AND ts.date = p_date) AS booked
+			LEFT OUTER JOIN trn_reservation tr ON tr.id = ts.res_id
+		WHERE ts.date = p_date and tr.am_id = p_id) AS booked
     FROM
         `lst_aminities` `la`
         LEFT JOIN `typ_aminities` `ta` ON `ta`.`id` = `la`.`type_id`
@@ -98,8 +111,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_customer_reservation` (`p_cu
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_by_id` (`p_id` INT)  BEGIN
+	SELECT *, (X.unit_count - X.booked) as available FROM
+(
+
+SELECT r.*,
+(SELECT  (CASE ISNULL(SUM(tr.no_units)) WHEN 1 THEN 0 ELSE SUM(tr.no_units) END) 
+		FROM trn_schedule ts 
+			LEFT OUTER JOIN trn_reservation tr ON tr.id = ts.res_id
+		WHERE ts.date = r.check_in and tr.am_id = r.am_id) AS booked,
+        (SELECT unit FROM lst_aminities WHERE id = r.am_id) AS unit_count
+    FROM vw_trn_reservations as r 
+    WHERE r.id = p_id) AS X;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_by_status` (`p_status` VARCHAR(5))  BEGIN
 	SELECT * FROM vw_trn_reservations WHERE status = p_status ;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_for_review` ()  BEGIN
+	SELECT * FROM vw_trn_reservations WHERE status IN ('S', 'P');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
@@ -143,12 +174,60 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_register_customer` (`p_user_acco
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_amenity` (`p_id` INT, `p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type_id` INT(11))  BEGIN
+
+	UPDATE lst_aminities 
+    SET     name = p_name, 
+		   rates = p_rates,
+		   unit = p_unit,
+		   person_limit = p_person_limit,
+		   type_id = p_type_id    				
+    WHERE id = p_id;
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_amenity_type` (`p_id` INT, `p_name` VARCHAR(40), `p_rates` DECIMAL(10,2))  BEGIN
+	UPDATE 	typ_aminities
+	SET	
+		name = p_name,
+		rates = p_rates
+        
+	WHERE id = p_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_discount` (`p_id` INT, `p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
 
 	UPDATE 	typ_discount
     SET		name = p_name,
 			percent = p_percent
 	WHERE id = p_id;
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservation_status` (`p_id` INT, `p_status` VARCHAR(1))  BEGIN
+
+	UPDATE trn_reservation SET Status = p_status WHERE id = p_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservation_with_changes` (`p_id` INT, `p_status` VARCHAR(1), `p_original` INT, `p_unit` INT)  BEGIN
+
+	UPDATE 	trn_reservation 
+    SET 	status = p_status, original = p_original, no_units = p_unit
+    WHERE 	id = p_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservetion_pay` (`p_id` INT, `p_cs_id` INT, `p_am_id` INT, `p_date` VARCHAR(10))  BEGIN
+
+	DECLARE p_check_date VARCHAR(25);
+    
+    SET p_check_date = (SELECT check_in FROM trn_reservation WHERE id = p_id);
+    
+	UPDATE trn_reservation SET Status = 'G' WHERE id = p_id;
+    
+    INSERT INTO trn_schedule
+	(date, am_id, status, cs_id, res_id, stamp)
+    VALUES
+    (p_check_date, p_am_id, 'B', p_cs_id, p_id, p_date);
 
 END$$
 
@@ -211,7 +290,32 @@ INSERT INTO `user` (`user_id`, `role_id`, `user_account`, `user_password`) VALUE
 (38, 2, 'yup', 'cf79ae6addba60ad018347359bd144d2'),
 (39, 2, 'yup', '202cb962ac59075b964b07152d234b70'),
 (40, 2, 'yup', '202cb962ac59075b964b07152d234b70'),
-(41, 2, 'tay', '0a113ef6b61820daa5611c870ed8d5ee');
+(41, 2, 'tay', '0a113ef6b61820daa5611c870ed8d5ee'),
+(42, 2, 'yet', 'bcbe3365e6ac95ea2c0343a2395834dd'),
+(43, 2, 'carla', 'b706835de79a2b4e80506f582af3676a'),
+(44, 2, 'car', '15de21c670ae7c3f6f3f1f37029303c9'),
+(45, 2, 'wen', 'b0baee9d279d34fa1dfd71aadb908c3f'),
+(46, 2, 'sav', '310dcbbf4cce62f762a2aaa148d556bd'),
+(47, 2, 'xxx', '202cb962ac59075b964b07152d234b70'),
+(48, 2, 'yyy', '202cb962ac59075b964b07152d234b70'),
+(49, 2, 'rrr', '81dc9bdb52d04dc20036dbd8313ed055'),
+(50, 2, 'rrr', '202cb962ac59075b964b07152d234b70'),
+(51, 2, 'yyy', '202cb962ac59075b964b07152d234b70'),
+(52, 2, 'ttt', '9990775155c3518a0d7917f7780b24aa'),
+(53, 2, 'momo', 'b0baee9d279d34fa1dfd71aadb908c3f'),
+(54, 2, 'adam', '202cb962ac59075b964b07152d234b70'),
+(55, 2, 'adam', 'd3eb9a9233e52948740d7eb8c3062d14'),
+(56, 2, 'tang', 'dcddb75469b4b4875094e14561e573d8'),
+(57, 2, 'yas', 'd3eb9a9233e52948740d7eb8c3062d14'),
+(58, 2, 'g', 'c4ca4238a0b923820dcc509a6f75849b'),
+(59, 2, 'hhh', 'a3aca2964e72000eea4c56cb341002a4'),
+(60, 2, 'kkk', 'cb42e130d1471239a27fca6228094f0e'),
+(61, 2, 'mam', '698d51a19d8a121ce581499d7b701668'),
+(62, 2, 'NATS', '202cb962ac59075b964b07152d234b70'),
+(63, 2, 'testt', '202cb962ac59075b964b07152d234b70'),
+(64, 2, 'ven', '202cb962ac59075b964b07152d234b70'),
+(65, 2, 'mam', '202cb962ac59075b964b07152d234b70'),
+(66, 2, 'jason', '827ccb0eea8a706c4c34a16891f84e7b');
 
 --
 -- Indexes for dumped tables
@@ -231,7 +335,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
