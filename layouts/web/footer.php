@@ -40,7 +40,33 @@
             <div class="row">
 
                 <div class="col-md-4">
+                </div>
 
+
+
+
+                    <div class="col-md-4">
+
+                        <!--social-->
+
+                        <ul class="social">
+
+                            <div class="col-md-12 text-center black">   
+                                <br>         
+
+                                <h3 class="title">contact <span class="themecolor"></span></h3>
+                                <div class="col-md-12 text-center black ">
+
+                                <h3 class="" style="font: small-caption;">Smart 09205679506<span
+                                class="themecolor"> </span></h3>
+                                <h3 class="" style="font: small-caption;">Globe 0997345645<span
+                                class="themecolor"> </span></h3>
+                                <h3 class="" style="font: small-caption;">Tm 09269317505<span
+                                class="themecolor"> </span></h3>
+                                <h3 class="" style="font: small-caption;">Sun 09236458465<span
+                                class="themecolor"> </span></h3>
+                        </ul>
+                    </div>
 
                 </div>
             </div>

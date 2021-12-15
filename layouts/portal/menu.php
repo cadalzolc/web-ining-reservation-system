@@ -28,7 +28,7 @@
 		<li class="nav-item dropdown <?php if ($GLOBALS["active-page"] == "maintenance") { echo "active"; } ?>">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Maintenance</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown01">
-				<a class="dropdown-item" href="./customers.php">Customers</a>
+				<a class="dropdown-item" href="./customers.php">History</a>
 				<a class="dropdown-item" href="./aminities-list.php">Aminities</a>
 				<a class="dropdown-item" href="./discounts.php">Discounts</a>
 				<a class="dropdown-item" href="./aminities-type.php">Aminities Type</a>

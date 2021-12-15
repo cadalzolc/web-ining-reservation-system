@@ -13,7 +13,7 @@ $data = '{
 }';
 
 
-$res = Execute("call sp_add_amenity_type('$name', $rate)");
+$res = Execute("call sp_add_aminity_type('$name', $rate)");
 
 if ($res){
     $data = '{

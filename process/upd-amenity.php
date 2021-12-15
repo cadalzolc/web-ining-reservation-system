@@ -21,7 +21,7 @@ include('../includes/conn.php');
             "message": "UNSUCCESSFUL UPDATE"
         }';
 
-            $res = Execute ($db,"UPDATE sp_update_amenity SET name='$name',rates = $rates,available = $unit,
+            $res = Execute ("call sp_update_amenity SET name='$name',rates = $rates,available = $unit,
             capacity = $person_limit,type = $typeid WHERE id = $id");
 
         if ($res)
