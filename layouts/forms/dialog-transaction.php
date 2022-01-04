@@ -19,7 +19,7 @@ $good = $info['available'] >= $info['no_units'];
 $btn = "";
 $msg = "";
 if ($good == true) {
-    $btn = '<button type="submit" name="submit" value="good" data-submit="good" class="btn btn-primary" style="font-size: 12px;">Confirm Reservation</button>';
+    $btn = '<button type="submit" name="submit" value="good" data-submit="good" class="btn btn-primary" style="font-size: 12px;">Send Confirmation</button>';
 }else {
     $btn = '<button type="submit" name="submit" value="notify" data-submit="notify" class="btn btn-primary" style="font-size: 12px;">Notify Customer</button>';
     $msg = "Sorry, this reservation cannot be served, the reserved unit count is greater than available stock (" . $info['available'] .").";
@@ -36,12 +36,22 @@ for($i = 1; $i <= $info['available']; $i++) {
     }
 }
 
+if ($info['available'] == 0){
+    $opt_units = $opt_units . '<option selected value="0">0</option>';
+}
+
 echo $RV_ID  .'
 <div class="modal-dialog">
+   <div id="OlBusy" class="spinner-overlay">
+    <div class="spinner-border text-danger" role="status">
+        <span class="visually-hidden"></span>
+    </div>
+   </div>
     <div class="panel panel-default">
         <div class="panel-body">
             <h3 class="form-title-child" style="margin-bottom: 10px; display: flex;">Reservation Details</h3>
             <form class="form-horizontal form-info" method="POST" onsubmit="return OnFormSubmitNotify(this);" style="margin-bottom: 10px;">
+                <input type="hidden" name="customerid" value="' . $info['cs_id'] . '" />
                 <input type="hidden" name="original" value="' . $info['no_units'] . '" />
                 <div class="row" style="margin-bottom: 5px;">
                     <div class="col-sm-2">No:</div>

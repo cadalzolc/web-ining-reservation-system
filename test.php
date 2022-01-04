@@ -1,25 +1,14 @@
 <?php
 
-    $access_token = "S59g3YXzr2DthQyepBxjf5l2hFoWhfVIF9epQAXOwfY";
-    $url = "https://devapi.globelabs.com.ph/smsmessaging/v1/outbound/21666274/requests?access_token=" . $access_token;
+    $amount = 10000000;
 
-    $curl = curl_init();
+    $body = 'Hi Renato' .  nl2br(', we would like to have your confirmation with the reservation details.');
+    $body = $body . nl2br('Date Arrival:  . 0 . \n');
+    $body = $body . nl2br('Name of Aminity: 0 \n');
+    $body = $body . nl2br('No. of Units: 0 \n');
+    $body = $body . nl2br('Amount: ₱ ' . number_format($amount, 2, '.',  ','). '\n\n');
+    $body = $body . nl2br('If your are still interested with your reservation please reply "RESERVATION CONFIRMED". And there is a problem just call "09778299069" to reach out with our staff. Thank you');
 
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => $url ,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_HTTPHEADER => array(
-            "cache-control: no-cache"
-        ),
-        CURLOPT_POSTFIELDS => json_encode('{ "outboundSMSMessageRequest": { "address": "9055576257", "clientCorrelator": "21666274", "senderAddress": "6274", "outboundSMSTextMessage": {"message": "From Resort"} } }'),
-    ));
-
-    $response = curl_exec($curl);
-    $results = json_decode($response, true);
-
-    echo json_encode($results);
+    echo $body;
     
 ?>

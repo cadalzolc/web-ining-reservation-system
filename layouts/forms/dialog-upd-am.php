@@ -66,7 +66,6 @@ echo '
                             <div class="col-lg-12" style="float: right; padding: 5px 15px;">
                                 <button type="submit" class="btn btn-primary" style="font-size: 12px;">Update</button>
                                 <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Close</button>
-                                <button type="button" class="btn btn-secondary" data-close="" style="font-size: 12px;">Disable</button>
                             </div>
                         </div>
                     </form>

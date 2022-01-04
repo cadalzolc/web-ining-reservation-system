@@ -59,11 +59,7 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
                             <td><?= $t['aminity']; ?></td>
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['no_units']; ?></td>
-                            <td><?= $t['check_in']; ?></td>
-                            <td style="padding: 3px;">
-                                <button type="button" class="btn btn-success btn-xs"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">More Details</button>
-                            </td>
+                            <td><?= $t['check_in']; ?></td> 
                         </tr>
                         <?php 
 		$cnt++;

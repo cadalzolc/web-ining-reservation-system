@@ -39,6 +39,7 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 				switch($t['status']){
 					case "P": echo "Review"; break;
 					case "S": echo "Send"; break;
+					case "C": echo "Confirmed"; break;
 				}
 				?>
 			</td>
@@ -55,7 +56,7 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 				</button>
 				<?php
 						break;
-					case "S":
+					case "C":
 				?>
 				<button type="button" 
 					data-pay="<?php echo $t['id']; ?>"
@@ -64,15 +65,27 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 					Pay
 				</button>
 				<button type="button" 
-					data-cancelled="<?php echo $t['id']; ?>"
+					data-cancel="<?php echo $t['id']; ?>"
 					class="btn btn-danger btn-xs" 
 					style="height: 100% !important; width: 100%; line-height: 2;">
 					Cancel
 				</button>
 				<?php
 						break;
+					case "S":
+				?>
+					<input type="hidden" data-mobile="<?= $t['contact']; ?>"  data-id="<?= $t['id']; ?>" data-trans="RS<?= ($t['id'] + 1000); ?>"/>
+					<button type="button" 
+						data-cancel="<?php echo $t['id']; ?>"
+						class="btn btn-danger btn-xs" 
+						style="height: 100% !important; width: 100%; line-height: 2;">
+						Cancel
+					</button>
+				<?php
+						break;
 				}
 				?>
+				
 			</td>
 		</tr>
 		<?php 
@@ -82,7 +95,26 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 </table>
 
 <script type="text/javascript">
+	const params = {
+		method: 'GET',
+		headers: {
+			'accept': 'application/json'
+		}
+	};
 	$(document).ready(function () {
-		$('#myTable-trans').DataTable();
+		$('#myTable-trans').DataTable();		
+		setInterval(function () {
+			$.each($("input[data-mobile]"), function( index, value ) {
+				GetReply($(this).data("mobile"), $(this).data("trans"), $(this).data("id"));
+			});
+		}, 
+		5000);
 	});
+	async function GetReply(mobile, trans, id){
+		var payload = { "mobile": mobile, "trans" : trans, "id": id };
+		$.get("./process/get-logs.php", payload, function(res){
+			var postData = { "mobile": mobile, "trans" : trans, "id": id, "body": res.data.body };
+			$.post('./process/push-logs.php', postData);
+		});	
+	}
 </script>

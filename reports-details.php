@@ -12,7 +12,8 @@ include('./includes/conn.php');
 
 $GLOBALS["active-page"] = "reports";
 
-$res =  Execute("SELECT * FROM vw_rpt_reservation;");
+$date = $_GET['date'];
+$res =  Execute("SELECT * FROM vw_trn_reservations WHERE date = '$date' AND status = 'G';");
 $total = 0.00;
 
 ?>
@@ -26,11 +27,18 @@ $total = 0.00;
     <?php include("./layouts/portal/menu.php") ?>
     <br />
     <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="./dashboard.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="./reports.php">Reports</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Report Detail</li>
+            </ol>
+        </nav>
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div id="trans-table">
                 <div style="font-weight: 600; font-size: 22px; margin-bottom: 15px;">
-                    Sales Summary:
+                    Sales Report Date: <?php echo $date; ?>
                     <button class="btn btn-primary" style="float: right;" onclick="display()">
                         <i class="fa fa-print"></i> Print
                     </button>
@@ -39,9 +47,9 @@ $total = 0.00;
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th style="width: 35px !important;"></th>
-                            <th>Date</th>
-                            <th style="text-align: right;">Sales</th>
+                            <th>Aminity</th>
+                            <th>Customer</th>
+                            <th style="text-align: right;">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,16 +59,13 @@ $total = 0.00;
                         ?>
                         <tr>
                             <td style="width: 10px;"><?= $cnt; ?></td>
-                            <td style="padding: 3px;">
-                                <a href="./reports-details.php?date=<?= $t['date']; ?>" class="btn btn-success btn-xs"
-                                    style="height: 100% !important; width: 100%; line-height: 2;">View Details</a>
-                            </td>
-                            <td><?= $t['date']; ?></td>
-                            <td style="text-align: right;"><?= $t['sales']; ?></td>
+                            <td><?= $t['aminity']; ?></td>
+                            <td><?= $t['customer']; ?></td>
+                            <td style="text-align: right;"><?= $t['amount']; ?></td>
                         </tr>
                         <?php 
                             $cnt++;
-                            $total = $total + $t['sales'];
+                            $total = $total + $t['amount'];
                             endforeach; ?>
                     </tbody>
                     <tfoot>

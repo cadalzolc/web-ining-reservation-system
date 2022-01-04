@@ -6,11 +6,7 @@
 		if ($_SESSION["s-role-id"] == 2){
 			
 	?>
-		<li class="<?php if ($GLOBALS["active-page"] == "Customers") { echo "active"; } ?>">
-			<a href="./history.php">Customers
-				<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-			</a>
-		</li>
+
 	<?php
 	}
 	elseif ($_SESSION["s-role-id"] == 4) {
@@ -28,7 +24,7 @@
 		<li class="nav-item dropdown <?php if ($GLOBALS["active-page"] == "maintenance") { echo "active"; } ?>">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Maintenance</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown01">
-				<a class="dropdown-item" href="./customers.php">Customers</a>
+				<a class="dropdown-item" href="./customers.php">Customer Records</a>
 				<a class="dropdown-item" href="./aminities-list.php">Aminities</a>
 				<a class="dropdown-item" href="./discounts.php">Discounts</a>
 				<a class="dropdown-item" href="./aminities-type.php">Aminities Type</a>

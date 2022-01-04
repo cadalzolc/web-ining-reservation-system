@@ -9,9 +9,10 @@ $res =  Execute("CALL sp_get_customer_reservation($id);");
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3"><h3>My Reservations</h3></div>
+        <div class="col-md-3"><h3>Profile</h3></div>
         <div class="col-md-9">
         <div id="trans-table">
+        <div class="col-md-3"><h3>My Reservations</h3></div>
                 <table id="myTable-trans" class="table table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>

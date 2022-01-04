@@ -34,7 +34,6 @@ $res =  Execute("SELECT * FROM vw_trn_reservations;")
                             <th style="width: 60px;">Booked Id</th>
                             <th>Date</th>
                             <th>Customer</th>
-                            <th>Pack</th>
                             <th>Aminity</th>
                             <th>Amount</th>
                             <th>Units</th>
@@ -53,7 +52,6 @@ $res =  Execute("SELECT * FROM vw_trn_reservations;")
                             <td>RS<?php echo 1000 +  $t['id'];?></td>
                             <td><?= $t['date']; ?></td>
                             <td><?= $t['customer']; ?></td>
-                            <td class="text-center"><?= $t['no_persons']; ?></td>
                             <td><?= $t['aminity']; ?></td>
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['no_units']; ?></td>

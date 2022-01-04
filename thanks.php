@@ -25,7 +25,7 @@ $user_id = $_REQUEST['user'];
                 <div class="row">
                     <div class="col col-lg-12">
                         <div class="alert alert-success" role="alert">
-                            <h4 class="alert-heading">Congratsulation!</h4>
+                            <h4 class="alert-heading">Congratulation!</h4>
                             <br>
                             <p>Hi <strong style="text-transform: uppercase;"><?php echo $name; ?></strong>, your reservation was successfuly submitted. </p>
                             <br>
@@ -38,10 +38,21 @@ $user_id = $_REQUEST['user'];
                             <p> Check-in Date : <strong><?php echo $checkin_date; ?></strong>
                         </div>
                         <div>
-                        <a href="./process/auth-logout.php">
+
+<?php 
+
+if (!empty($_SESSION['s-name'])){
+?>
+    <a href="./process/auth-logout.php">
 				<strong style="margin-right: 10px;">Hi, <?php echo $_SESSION['s-name']; ?></strong>
 				<span class="glyphicon glyphicon-log-out"></span> Logout?
 			</a>
+<?php
+}
+
+?>
+
+                    
                         </div>
                     </div>
                 </div>

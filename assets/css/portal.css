@@ -53,7 +53,7 @@
 }
 
 .modal-dialog {
-    padding-top: 50px;
+    margin-top: 50px;
     max-width: 650px;
     margin: 0 auto;
     text-size-adjust: none;
@@ -66,3 +66,49 @@ input[type=date] {
 td .btn {
     border-radius: 0 !important;
 }
+
+.text-danger {
+    --bs-text-opacity: 1;
+    color: rgba(220,53,69, 100)!important;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: -.125em;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: .75s linear infinite spinner-border;
+    animation: .75s linear infinite spinner-border;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg) }
+  }
+
+@keyframes spinner-grow {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .spinner-overlay {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    background: rgba(240, 237, 237, 0.5);
+    z-index: 9999;
+    display: none;
+  }
+
+  .spinner-show {
+    display: flex !important;
+  }

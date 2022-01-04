@@ -6,12 +6,12 @@
 
             <div class="col-md-12 text-center black">
 
-                <h3 class="title">ABOUT <span class="themecolor">US</span></h3>
+             <h3 class="title">ABOUT <span class="themecolor">US</span></h3>
 
             </div>
             <div class="col-md-12 text-center black ">
 
-                <h3 class="" style="font: small-caption;">BNing Hidden Farm Resort is located at Brgy.Tabawan Calbayog
+                <h3 class="" style="font: caption; text-align: justify;">BNing Hidden Farm Resort is located at Brgy.Tabawan Calbayog
                     City, Samar.
                     The resort was first opened in public in february 7, 2019. It is owned by Maria Jane Aliman - Clark
                     and managed by
@@ -57,13 +57,13 @@
                                 <h3 class="title">contact <span class="themecolor"></span></h3>
                                 <div class="col-md-12 text-center black ">
 
-                                <h3 class="" style="font: small-caption;">Smart 09205679506<span
+                                <h3 class="" style="font: caption;">Smart 09205679506<span
                                 class="themecolor"> </span></h3>
-                                <h3 class="" style="font: small-caption;">Globe 0997345645<span
+                                <h3 class="" style="font: caption;">Globe 0997345645<span
                                 class="themecolor"> </span></h3>
-                                <h3 class="" style="font: small-caption;">Tm 09269317505<span
+                                <h3 class="" style="font: caption;">Tm 09269317505<span
                                 class="themecolor"> </span></h3>
-                                <h3 class="" style="font: small-caption;">Sun 09236458465<span
+                                <h3 class="" style="font: caption;">Sun 09236458465<span
                                 class="themecolor"> </span></h3>
                         </ul>
                     </div>

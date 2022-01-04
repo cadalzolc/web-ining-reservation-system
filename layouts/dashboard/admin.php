@@ -44,6 +44,15 @@
 		});
 	});
 
+    $(document).on('click', 'button[data-cancel]', function() {
+		var id = $(this).data('cancel');
+		$.get('./layouts/forms/dialog-cancel.php', { uid: id }, function(data) {
+			$('#Olm').empty();
+			$('#Olm').append(data);
+			$('#Olm').show();
+		});
+	});
+
 
     $(document).on('change', "select[data-total]", function () {
         let amt = $('#Amount').val();
@@ -61,7 +70,28 @@
     
     function OnFormSubmitNotify(Frm) {
         var nxt = "&submit=" + buttonText
-        $.post('./process/reservation-notify.php?', $(Frm).serialize() + nxt, function(data) {
+        $.ajax({
+            method: 'POST',
+            url: './process/reservation-notify.php?',
+            data: $(Frm).serialize() + nxt,
+            beforeSend: function() {
+               $("#OlBusy").addClass("spinner-show");
+            }
+        }).done(function(data) {
+           if (data.success){
+            toastr.success(data.message);
+            setTimeout(function(){ 
+                window.location.reload(true);
+            }, 2000);
+           } else {
+            toastr.error(data.message);
+           }
+        });
+        return false;
+    }
+
+    function OnFormSubmitPay(Frm) {
+        $.post('./process/reservation-pay.php?', $(Frm).serialize(), function(data) {
             if (data.success) {
                 toastr.success(data.message);
                 setTimeout(function(){ 
@@ -74,8 +104,8 @@
         return false;
     }
 
-    function OnFormSubmitPay(Frm) {
-        $.post('./process/reservation-pay.php?', $(Frm).serialize(), function(data) {
+    function OnFormSubmitCancel(Frm) {
+        $.post('./process/reservation-cancel.php?', $(Frm).serialize(), function(data) {
             if (data.success) {
                 toastr.success(data.message);
                 setTimeout(function(){ 

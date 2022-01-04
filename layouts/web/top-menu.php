@@ -31,7 +31,7 @@
                     <li><a href="./" class="page-scroll">
                             <h3>Gallery</h3>
                         </a></li>
-                    <li><a href="./about.php" class="page-scroll">
+                    <li><a href="./contact.php" class="page-scroll">
                             <h3>Contact us</h3>
                         </a></li>
                         <li><a href="./about.php" class="page-scroll">
@@ -44,7 +44,7 @@
                     if (!empty($_SESSION["s-id"])) {
 
                     ?>
-                    <li style="margin-left: 15px;">Welcome 
+                    <li style="margin-left: 15px;"> Welcome 
                         <h3><?php echo $_SESSION["s-name"]; ?></h3>
                     </li>            
                     <li>
