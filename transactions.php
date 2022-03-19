@@ -41,8 +41,9 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
                             <th>Aminity</th>
                             <th>Amount</th>
                             <th>Units</th>
-                            <th>Check-In</th>
-                            <th></th>
+                            <th>Arrival</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
                         </tr>
                     </thead>
 
@@ -59,7 +60,9 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
                             <td><?= $t['aminity']; ?></td>
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['no_units']; ?></td>
-                            <td><?= $t['check_in']; ?></td> 
+                            <td><?= $t['check_in']; ?></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php 
 		$cnt++;

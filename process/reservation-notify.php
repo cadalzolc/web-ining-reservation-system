@@ -5,11 +5,6 @@ session_start();
 include('../includes/conn.php');
 include('../includes/sms.php');
 
-$data = '{
-    "success": false,
-    "message": "Something went wrong in your request"
-}';
-
 $idx = $_POST["RevNo"];
 $amount = $_POST["Amount"];
 $name = $_POST["Customer"];
@@ -34,6 +29,11 @@ switch ($submit) {
         $msg = "Successfully cancelled";
         break; 
 }
+
+$data = '{
+    "success": false,
+    "message": "' . $sql .'"
+}';
 
 $res = Execute($sql);
 
