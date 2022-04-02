@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 07:49 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Generation Time: Apr 02, 2022 at 09:24 AM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `medallion`
+-- Database: `db_reservation`
 --
 
 DELIMITER $$
@@ -72,6 +72,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_reservation` (`p_am_id` INT,
      
      SELECT CONCAT('RS', 1000 + p_id) as trans_no, p_id as id;
     
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_check_in` (`p_id` INT)  BEGIN
+
+	DECLARE p_date VARCHAR(10);
+    
+    SET p_date = current_time();
+    
+	UPDATE trn_reservation SET date_in = p_date WHERE id = p_id;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_check_out` (`p_id` INT)  BEGIN
+
+	DECLARE p_date VARCHAR(10);
+    
+    SET p_date = current_time();
+    
+	UPDATE trn_reservation SET date_out = p_date WHERE id = p_id;
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_aminity_info_today` (`p_id` INT, `p_date` VARCHAR(10))  BEGIN
@@ -298,7 +318,7 @@ INSERT INTO `trn_reservation` (`id`, `date`, `am_id`, `cs_id`, `amount`, `no_uni
 (30, '2021-12-20', 2, 69, 400, 1, 0, '2021-12-22', 'P', '0.00', '', ''),
 (31, '2021-12-20', 5, 70, 5000, 1, 0, '2021-12-24', 'P', '0.00', '', ''),
 (33, '2021-12-20', 1, 71, 300, 0, 0, '2021-12-20', 'X', '0.00', '', ''),
-(34, '2021-12-20', 1, 71, 300, 1, 0, '2021-12-20', 'G', '0.00', '', ''),
+(34, '2021-12-20', 1, 71, 300, 1, 0, '2021-12-20', 'G', '0.00', '15:22:58', '15:23:15'),
 (35, '2021-12-20', 1, 71, 300, 0, 0, '2021-12-20', 'S', '0.00', '', ''),
 (36, '2021-12-20', 1, 72, 300, 1, 0, '2021-12-20', 'P', '0.00', '', ''),
 (37, '2021-12-20', 2, 73, 400, 1, 0, '2021-12-28', 'P', '0.00', '', ''),
@@ -683,7 +703,7 @@ CREATE TABLE `vw_users` (
 --
 DROP TABLE IF EXISTS `vw_lst_amenities`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_lst_amenities`  AS SELECT `la`.`id` AS `id`, `la`.`type_id` AS `type_id`, `ta`.`name` AS `type`, `la`.`name` AS `name`, `la`.`photo` AS `photo`, `la`.`rates` AS `rates`, `la`.`status` AS `status`, `la`.`unit` AS `unit`, `la`.`discount_id` AS `discount_id`, `td`.`name` AS `discount`, `td`.`percent` AS `percent`, `la`.`active` AS `active`, `la`.`person_limit` AS `person_limit` FROM ((`lst_aminities` `la` left join `typ_aminities` `ta` on(`ta`.`id` = `la`.`type_id`)) left join `typ_discount` `td` on(`td`.`id` = `la`.`discount_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_lst_amenities`  AS  select `la`.`id` AS `id`,`la`.`type_id` AS `type_id`,`ta`.`name` AS `type`,`la`.`name` AS `name`,`la`.`photo` AS `photo`,`la`.`rates` AS `rates`,`la`.`status` AS `status`,`la`.`unit` AS `unit`,`la`.`discount_id` AS `discount_id`,`td`.`name` AS `discount`,`td`.`percent` AS `percent`,`la`.`active` AS `active`,`la`.`person_limit` AS `person_limit` from ((`lst_aminities` `la` left join `typ_aminities` `ta` on(`ta`.`id` = `la`.`type_id`)) left join `typ_discount` `td` on(`td`.`id` = `la`.`discount_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -692,7 +712,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_rpt_reservation`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_rpt_reservation`  AS SELECT `r`.`date` AS `date`, sum(`r`.`amount`) AS `sales` FROM `trn_reservation` AS `r` WHERE `r`.`status` = 'G' GROUP BY `r`.`date` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_rpt_reservation`  AS  select `r`.`date` AS `date`,sum(`r`.`amount`) AS `sales` from `trn_reservation` `r` where `r`.`status` = 'G' group by `r`.`date` ;
 
 -- --------------------------------------------------------
 
@@ -701,7 +721,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_trn_reservations`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_trn_reservations`  AS SELECT `tr`.`id` AS `id`, `tr`.`date` AS `date`, `tr`.`am_id` AS `am_id`, `la`.`name` AS `aminity`, `tr`.`cs_id` AS `cs_id`, `u`.`fullname` AS `customer`, `u`.`address` AS `address`, `u`.`contact` AS `contact`, `u`.`age` AS `age`, `u`.`gender` AS `gender`, `tr`.`amount` AS `amount`, `tr`.`no_units` AS `no_units`, `tr`.`no_persons` AS `no_persons`, `tr`.`check_in` AS `check_in`, `tr`.`status` AS `status`, `tr`.`discount` AS `discount`, `tr`.`date_in` AS `date_in`, `tr`.`date_out` AS `date_out` FROM ((`trn_reservation` `tr` left join `lst_aminities` `la` on(`la`.`id` = `tr`.`am_id`)) left join `vw_users` `u` on(`u`.`user_id` = `tr`.`cs_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_trn_reservations`  AS  select `tr`.`id` AS `id`,`tr`.`date` AS `date`,`tr`.`am_id` AS `am_id`,`la`.`name` AS `aminity`,`tr`.`cs_id` AS `cs_id`,`u`.`fullname` AS `customer`,`u`.`address` AS `address`,`u`.`contact` AS `contact`,`u`.`age` AS `age`,`u`.`gender` AS `gender`,`tr`.`amount` AS `amount`,`tr`.`no_units` AS `no_units`,`tr`.`no_persons` AS `no_persons`,`tr`.`check_in` AS `check_in`,`tr`.`status` AS `status`,`tr`.`discount` AS `discount`,`tr`.`date_in` AS `date_in`,`tr`.`date_out` AS `date_out` from ((`trn_reservation` `tr` left join `lst_aminities` `la` on(`la`.`id` = `tr`.`am_id`)) left join `vw_users` `u` on(`u`.`user_id` = `tr`.`cs_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -710,7 +730,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_users`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_users`  AS SELECT `u`.`user_id` AS `user_id`, `u`.`role_id` AS `role_id`, `r`.`name` AS `role`, `u`.`user_account` AS `user_account`, `u`.`user_password` AS `user_password`, concat(`up`.`name_first`,' ',`up`.`name_last`) AS `fullname`, `up`.`address` AS `address`, `up`.`contact` AS `contact`, `up`.`age` AS `age`, `up`.`gender` AS `gender`, `up`.`gender` AS `photo` FROM ((`user` `u` left join `user_profile` `up` on(`up`.`user_id` = `u`.`user_id`)) left join `typ_roles` `r` on(`r`.`id` = `u`.`role_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_users`  AS  select `u`.`user_id` AS `user_id`,`u`.`role_id` AS `role_id`,`r`.`name` AS `role`,`u`.`user_account` AS `user_account`,`u`.`user_password` AS `user_password`,concat(`up`.`name_first`,' ',`up`.`name_last`) AS `fullname`,`up`.`address` AS `address`,`up`.`contact` AS `contact`,`up`.`age` AS `age`,`up`.`gender` AS `gender`,`up`.`gender` AS `photo` from ((`user` `u` left join `user_profile` `up` on(`up`.`user_id` = `u`.`user_id`)) left join `typ_roles` `r` on(`r`.`id` = `u`.`role_id`)) ;
 
 --
 -- Indexes for dumped tables

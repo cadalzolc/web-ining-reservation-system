@@ -14,6 +14,7 @@ $GLOBALS["active-page"] = "transactions";
 
 $res =  Execute("CALL sp_get_reservation_by_status('G');")
 
+
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +62,32 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
                             <td><?= $t['amount']; ?></td>
                             <td><?= $t['no_units']; ?></td>
                             <td><?= $t['check_in']; ?></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                <?php 
+                                    if ($t['date_in'] == ""){
+                                        ?>
+                                            <a class="btn btn-success" href="#" onclick="OnTransactionClick(this)" data-route="./layouts/forms/dialog-check-in.php?ref=<?= $t['id']; ?>">Check In</a>
+                                        <?php
+                                    }else{
+                                        $dt = date("Y-m-d g:ia", strtotime($t['date_in']));
+                                        echo $dt;
+                                    }
+                                ?>
+                            </td>
+                            <td>
+                                <?php 
+                                    if ($t['date_in'] != "" && $t['date_out'] == ""){
+                                        ?>
+                                            <a class="btn btn-success" href="#" onclick="OnTransactionClick(this)" data-route="./layouts/forms/dialog-check-out.php?ref=<?= $t['id']; ?>">Check Out</a>
+                                        <?php
+                                    }else {
+                                        if ($t['date_out'] !=""){
+                                            $dt = date("Y-m-d g:ia", strtotime($t['date_out']));
+                                            echo $dt;
+                                        }
+                                    }
+                                ?>
+                            </td>
                         </tr>
                         <?php 
 		$cnt++;
@@ -75,37 +100,17 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
         <div class="col-md-1"></div>
     </div>
     <div id="Olm" class="overlay-modal"></div>
+    <div id="DV000" class="modal modal-default"></div>
     <script type="text/javascript" src="./assets/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./assets/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="./assets/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript" src="./assets/js/toastr.min.js"></script>
+    <script type="text/javascript" src="./assets/js-custom/transaction.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#myTable-trans').DataTable();
         });
-
-        function AddDiscount() {
-            $.get('./layouts/forms/dialog-discount.php', function (data) {
-                $('#Olm').empty();
-                $('#Olm').append(data);
-                $('#Olm').show();
-            })
-        }
-
-        function SaveDiscount(Frm) {
-            $.post('./process/add-discount.php', $(Frm).serialize(), function (res) {
-                if (res.success) {
-                    toastr.success(res.message);
-                    setTimeout(function () {
-                        window.location.reload(true);
-                    }, 2000);
-                } else {
-                    toastr.error(res.message);
-                }
-            })
-            return false;
-        }
         $(document).on('click', 'button[data-close]', function () {
             $('#Olm').hide();
         });
@@ -113,3 +118,4 @@ $res =  Execute("CALL sp_get_reservation_by_status('G');")
 </body>
 
 </html>
+
