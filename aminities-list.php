@@ -1,5 +1,5 @@
 <?php 
-
+ini_set('session.save_path', './temp');
 session_start();
 
 if (empty($_SESSION['s-id'])) {
@@ -12,7 +12,7 @@ include('./includes/conn.php');
 
 $GLOBALS["active-page"] = "maintenance";
 
-$res =  Execute("SELECT * FROM medallion.vw_lst_amenities;")
+$res =  Execute("SELECT * FROM vw_lst_amenities;")
 ?>
 
 <!DOCTYPE html>

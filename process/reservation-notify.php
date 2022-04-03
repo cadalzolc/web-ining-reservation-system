@@ -1,5 +1,5 @@
 <?php
-
+ini_set('session.save_path', '../temp');
 session_start();
 
 include('../includes/conn.php');
@@ -32,7 +32,7 @@ switch ($submit) {
 
 $data = '{
     "success": false,
-    "message": "' . $sql .'"
+    "message": "Failed"
 }';
 
 $res = Execute($sql);
@@ -40,7 +40,7 @@ $res = Execute($sql);
 if ($res) {
 
     $sms_response = "";
-    $res_cr = Execute("SELECT * FROM user_profile WHERE id = $cid;");
+    $res_cr = Execute("SELECT * FROM user_profile WHERE user_id = $cid;");
     $cs = mysqli_fetch_array($res_cr);
 
     $sms = new SmsRenato();
@@ -67,8 +67,8 @@ if ($res) {
     }
 
     $data = '{
-        "success": true,
-        "message": "' . $msg .'"
+        "success": false,
+        "message": "' . $msg . '"
     }';
 
 }

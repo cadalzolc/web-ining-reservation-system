@@ -23,12 +23,14 @@ if (strpos($body, 'RESERVATION CONFIRMED') !== false) {
             "success": true,
             "message": "Success "
         }';
-    }
+    } else
+    {
     
-    $data = '{
-        "success": false,
-        "message": "Failed ' . $no . ', ' . $trans . '"
+        $data = '{
+            "success": false,
+            "message": "Failed ' . $no . ', ' . $trans . ' ' . $is_matched .'"
     }';
+    }
 }
 
 

@@ -110,6 +110,7 @@ $res =  Execute("CALL sp_get_reservation_for_review;")
 		}, 
 		5000);
 	});
+
 	async function GetReply(mobile, trans, id){
 		var payload = { "mobile": mobile, "trans" : trans, "id": id };
 		$.get("./process/get-logs.php", payload, function(res){

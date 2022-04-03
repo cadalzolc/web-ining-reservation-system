@@ -1,5 +1,5 @@
 <?php
-
+ini_set('session.save_path', '../temp');
 session_start();
 
 include('../includes/config.php');

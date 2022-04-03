@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 09:24 AM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Apr 03, 2022 at 02:04 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,32 +18,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_reservation`
+-- Database: `db_reserve`
 --
 
 DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `sp_add_amenity` (`p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type` INT(11))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_amenity` (`p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type` INT(11))  BEGIN
 
 	INSERT INTO lst_aminities (name, rates, unit, person_limit, type_id, photo, status, active, discount_id) 
     VALUES  (p_name, p_rates, p_unit, p_person_limit, p_type, 'default.jpg', 'A', 1, 1);
     
 END$$
 
-CREATE PROCEDURE `sp_add_aminity_type` (`p_name` VARCHAR(40), `p_rate` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_aminity_type` (`p_name` VARCHAR(40), `p_rate` DECIMAL(10,2))  BEGIN
 
 	INSERT INTO typ_aminities (name, rates) VALUES (p_name, p_rate);    
 END$$
 
-CREATE PROCEDURE `sp_add_discount` (`p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_discount` (`p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
 
 	INSERT INTO typ_discount (name, percent) VALUES  (p_name, p_percent);
 
 END$$
 
-CREATE PROCEDURE `sp_add_reservation` (`p_am_id` INT, `p_cs_id` INT, `p_no_units` INT, `p_check_in` VARCHAR(10), `p_no_persons` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_reservation` (`p_am_id` INT, `p_cs_id` INT, `p_no_units` INT, `p_check_in` VARCHAR(10), `p_no_persons` INT)  BEGIN
 
 	DECLARE p_date VARCHAR(10);
     DECLARE p_rate VARCHAR(10);
@@ -74,7 +74,7 @@ CREATE PROCEDURE `sp_add_reservation` (`p_am_id` INT, `p_cs_id` INT, `p_no_units
     
 END$$
 
-CREATE PROCEDURE `sp_check_in` (`p_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_check_in` (`p_id` INT)  BEGIN
 
 	DECLARE p_date VARCHAR(10);
     
@@ -84,7 +84,7 @@ CREATE PROCEDURE `sp_check_in` (`p_id` INT)  BEGIN
 
 END$$
 
-CREATE PROCEDURE `sp_check_out` (`p_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_check_out` (`p_id` INT)  BEGIN
 
 	DECLARE p_date VARCHAR(10);
     
@@ -94,7 +94,7 @@ CREATE PROCEDURE `sp_check_out` (`p_id` INT)  BEGIN
 
 END$$
 
-CREATE PROCEDURE `sp_get_aminity_info_today` (`p_id` INT, `p_date` VARCHAR(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_aminity_info_today` (`p_id` INT, `p_date` VARCHAR(10))  BEGIN
 
  SELECT *, 
 	unit - booked As available FROM
@@ -126,13 +126,13 @@ CREATE PROCEDURE `sp_get_aminity_info_today` (`p_id` INT, `p_date` VARCHAR(10)) 
 
 END$$
 
-CREATE PROCEDURE `sp_get_customer_reservation` (`p_customer_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_customer_reservation` (`p_customer_id` INT)  BEGIN
 
 	SELECT * FROM vw_trn_reservations WHERE cs_id = p_customer_id;
 
 END$$
 
-CREATE PROCEDURE `sp_get_reservation_by_id` (`p_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_by_id` (`p_id` INT)  BEGIN
 	SELECT *, (X.unit_count - X.booked) as available FROM
 (
 
@@ -146,15 +146,15 @@ SELECT r.*,
     WHERE r.id = p_id) AS X;
 END$$
 
-CREATE PROCEDURE `sp_get_reservation_by_status` (`p_status` VARCHAR(5))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_by_status` (`p_status` VARCHAR(5))  BEGIN
 	SELECT * FROM vw_trn_reservations WHERE status = p_status ;
 END$$
 
-CREATE PROCEDURE `sp_get_reservation_for_review` ()  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_reservation_for_review` ()  BEGIN
 	SELECT * FROM vw_trn_reservations WHERE status IN ('S', 'P', 'C');
 END$$
 
-CREATE PROCEDURE `sp_login` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
 
 	SELECT * FROM vw_users 
     WHERE user_account = p_user 
@@ -162,7 +162,7 @@ CREATE PROCEDURE `sp_login` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
 
 END$$
 
-CREATE PROCEDURE `sp_login_customer` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login_customer` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50))  BEGIN
 
 	SELECT * FROM vw_users 
     WHERE user_account = p_user 
@@ -171,7 +171,7 @@ CREATE PROCEDURE `sp_login_customer` (`p_user` VARCHAR(50), `p_pass` VARCHAR(50)
 
 END$$
 
-CREATE PROCEDURE `sp_register_customer` (`p_user_account` VARCHAR(30), `p_user_password` VARCHAR(40), `p_name_first` VARCHAR(30), `p_name_middle` VARCHAR(30), `p_name_last` VARCHAR(30), `p_gender` VARCHAR(1), `p_address` VARCHAR(300), `p_contact` VARCHAR(20), `p_age` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_register_customer` (`p_user_account` VARCHAR(30), `p_user_password` VARCHAR(40), `p_name_first` VARCHAR(30), `p_name_middle` VARCHAR(30), `p_name_last` VARCHAR(30), `p_gender` VARCHAR(1), `p_address` VARCHAR(300), `p_contact` VARCHAR(20), `p_age` INT)  BEGIN
 
 	DECLARE p_id INT;
 
@@ -195,7 +195,7 @@ CREATE PROCEDURE `sp_register_customer` (`p_user_account` VARCHAR(30), `p_user_p
 
 END$$
 
-CREATE PROCEDURE `sp_update_amenity` (`p_id` INT, `p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type_id` INT(11))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_amenity` (`p_id` INT, `p_name` VARCHAR(45), `p_rates` INT(10), `p_unit` INT(11), `p_person_limit` INT(11), `p_type_id` INT(11))  BEGIN
 
 	UPDATE lst_aminities 
     SET     name = p_name, 
@@ -207,7 +207,7 @@ CREATE PROCEDURE `sp_update_amenity` (`p_id` INT, `p_name` VARCHAR(45), `p_rates
     
 END$$
 
-CREATE PROCEDURE `sp_update_amenity_type` (`p_id` INT, `p_name` VARCHAR(40), `p_rates` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_amenity_type` (`p_id` INT, `p_name` VARCHAR(40), `p_rates` DECIMAL(10,2))  BEGIN
 	UPDATE 	typ_aminities
 	SET	
 		name = p_name,
@@ -216,7 +216,7 @@ CREATE PROCEDURE `sp_update_amenity_type` (`p_id` INT, `p_name` VARCHAR(40), `p_
 	WHERE id = p_id;
 END$$
 
-CREATE PROCEDURE `sp_update_discount` (`p_id` INT, `p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_discount` (`p_id` INT, `p_name` VARCHAR(40), `p_percent` DECIMAL(10,2))  BEGIN
 
 	UPDATE 	typ_discount
     SET		name = p_name,
@@ -225,19 +225,19 @@ CREATE PROCEDURE `sp_update_discount` (`p_id` INT, `p_name` VARCHAR(40), `p_perc
     
 END$$
 
-CREATE PROCEDURE `sp_update_reservation_status` (`p_id` INT, `p_status` VARCHAR(1))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservation_status` (`p_id` INT, `p_status` VARCHAR(1))  BEGIN
 
 	UPDATE trn_reservation SET Status = p_status WHERE id = p_id;
 END$$
 
-CREATE PROCEDURE `sp_update_reservation_with_changes` (`p_id` INT, `p_status` VARCHAR(1), `p_original` INT, `p_unit` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservation_with_changes` (`p_id` INT, `p_status` VARCHAR(1), `p_original` INT, `p_unit` INT)  BEGIN
 
 	UPDATE 	trn_reservation 
     SET 	status = p_status, no_units = p_unit
     WHERE 	id = p_id;
 END$$
 
-CREATE PROCEDURE `sp_update_reservetion_pay` (`p_id` INT, `p_cs_id` INT, `p_am_id` INT, `p_date` VARCHAR(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_reservetion_pay` (`p_id` INT, `p_cs_id` INT, `p_am_id` INT, `p_date` VARCHAR(10))  BEGIN
 
 	DECLARE p_check_date VARCHAR(25);
     
@@ -313,24 +313,32 @@ INSERT INTO `trn_reservation` (`id`, `date`, `am_id`, `cs_id`, `amount`, `no_uni
 (24, '2021-12-13', 2, 9, 400, 1, 0, '2021-12-12', 'Sent', '0.00', '', ''),
 (25, '2021-12-13', 1, 64, 300, 1, 0, '2021-12-16', 'Pending', '0.00', '', ''),
 (26, '2021-12-13', 1, 9, 300, 1, 0, '2021-12-12', 'X', '0.00', '', ''),
-(27, '2021-12-13', 1, 65, 600, 2, 0, '2021-12-15', 'P', '0.00', '', ''),
-(29, '2021-12-20', 1, 68, 300, 1, 0, '2021-12-20', 'P', '0.00', '', ''),
-(30, '2021-12-20', 2, 69, 400, 1, 0, '2021-12-22', 'P', '0.00', '', ''),
-(31, '2021-12-20', 5, 70, 5000, 1, 0, '2021-12-24', 'P', '0.00', '', ''),
 (33, '2021-12-20', 1, 71, 300, 0, 0, '2021-12-20', 'X', '0.00', '', ''),
 (34, '2021-12-20', 1, 71, 300, 1, 0, '2021-12-20', 'G', '0.00', '15:22:58', '15:23:15'),
 (35, '2021-12-20', 1, 71, 300, 0, 0, '2021-12-20', 'S', '0.00', '', ''),
 (36, '2021-12-20', 1, 72, 300, 1, 0, '2021-12-20', 'P', '0.00', '', ''),
-(37, '2021-12-20', 2, 73, 400, 1, 0, '2021-12-28', 'P', '0.00', '', ''),
 (38, '2021-12-21', 4, 9, 1000, 1, 0, '2021-12-30', 'P', '0.00', '', ''),
 (39, '2021-12-22', 1, 9, 300, 1, 0, '2021-12-24', 'P', '0.00', '', ''),
 (40, '2021-12-22', 1, 74, 600, 2, 0, '2021-12-23', 'X', '0.00', '', ''),
 (41, '2021-12-22', 1, 9, 600, 2, 0, '2021-12-23', 'S', '0.00', '', ''),
 (42, '2022-02-25', 1, 9, 300, 1, 0, '2022-02-25', 'P', '0.00', '', ''),
-(43, '2022-02-27', 1, 75, 350, 1, 0, '2022-02-27', 'S', '0.00', '', ''),
-(44, '2022-03-01', 1, 9, 300, 1, 0, '2022-03-01', 'P', '0.00', '', ''),
-(45, '2022-03-06', 1, 9, 300, 1, 0, '2022-03-15', 'P', '0.00', '', ''),
-(46, '2022-03-19', 1, 9, 300, 1, 0, '2022-03-19', 'C', '0.00', '', '');
+(43, '2022-02-27', 1, 75, 350, 1, 0, '2022-02-27', 'X', '0.00', '', ''),
+(44, '2022-03-01', 1, 9, 300, 1, 0, '2022-03-01', 'X', '0.00', '', ''),
+(46, '2022-03-19', 1, 9, 300, 1, 0, '2022-03-19', 'G', '0.00', '15:45:28', '15:46:14'),
+(47, '2022-04-02', 1, 9, 300, 1, 0, '2022-04-02', 'S', '0.00', '', ''),
+(48, '2022-04-02', 1, 9, 300, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(75, '2022-04-02', 2, 84, 400, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(79, '2022-04-02', 2, 9, 400, 1, 0, '2022-04-02', 'G', '0.00', '19:19:15', '19:21:04'),
+(80, '2022-04-02', 2, 9, 400, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(81, '2022-04-02', 2, 9, 400, 1, 0, '2022-04-02', 'C', '0.00', '', ''),
+(82, '2022-04-02', 2, 88, 400, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(83, '2022-04-02', 5, 9, 5000, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(84, '2022-04-02', 5, 9, 5000, 1, 0, '2022-04-02', 'X', '0.00', '', ''),
+(85, '2022-04-03', 3, 9, 500, 1, 0, '2022-04-03', 'X', '0.00', '', ''),
+(86, '2022-04-03', 5, 9, 5000, 1, 0, '2022-04-03', 'X', '0.00', '', ''),
+(87, '2022-04-03', 3, 9, 500, 1, 0, '2022-04-03', 'X', '0.00', '', ''),
+(88, '2022-04-03', 1, 89, 300, 1, 0, '2022-04-03', 'X', '0.00', '', ''),
+(89, '2022-04-03', 5, 90, 5000, 1, 0, '2022-04-05', 'S', '0.00', '', '');
 
 -- --------------------------------------------------------
 
@@ -375,7 +383,9 @@ INSERT INTO `trn_schedule` (`id`, `date`, `am_id`, `status`, `cs_id`, `res_id`, 
 (20, '2021-12-20', 1, 'B', 72, 36, '2021-12-20'),
 (21, '2021-12-28', 2, 'B', 73, 37, '2021-12-20'),
 (22, '2021-12-30', 4, 'B', 9, 38, '2021-12-21'),
-(23, '2021-12-20', 1, 'B', 71, 34, '2021-12-20');
+(23, '2021-12-20', 1, 'B', 71, 34, '2021-12-20'),
+(24, '2022-03-19', 1, 'B', 9, 46, '2022-03-19'),
+(25, '2022-04-02', 2, 'B', 9, 79, '2022-04-02');
 
 -- --------------------------------------------------------
 
@@ -399,7 +409,8 @@ INSERT INTO `typ_aminities` (`id`, `name`, `rates`) VALUES
 (3, 'ROOM', '1000'),
 (4, 'HALL', '5000'),
 (5, 'bar', '500'),
-(30, 'billiard', '2500');
+(30, 'billiard', '2500'),
+(31, 'Jaysam M. Casaljay', '2');
 
 -- --------------------------------------------------------
 
@@ -419,10 +430,11 @@ CREATE TABLE `typ_discount` (
 
 INSERT INTO `typ_discount` (`id`, `name`, `percent`) VALUES
 (1, 'NO DISCOUNT', '0.00'),
-(3, '15% Discount', '0.15'),
+(3, '20% Discount', '0.20'),
 (4, '20% Discount', '0.20'),
 (13, '30% Discount', '0.30'),
-(15, 'piso la', '0.01');
+(15, 'piso la', '0.01'),
+(16, 'doz', '0.02');
 
 -- --------------------------------------------------------
 
@@ -536,7 +548,22 @@ INSERT INTO `user` (`user_id`, `role_id`, `user_account`, `user_password`) VALUE
 (72, 2, 'warren123', '91cd058c84a3b24f971b075eb0aa768b'),
 (73, 2, 'gg', '202cb962ac59075b964b07152d234b70'),
 (74, 2, 'warren', '827ccb0eea8a706c4c34a16891f84e7b'),
-(75, 2, 'sam', '202cb962ac59075b964b07152d234b70');
+(75, 2, 'sam', '202cb962ac59075b964b07152d234b70'),
+(76, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(77, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(78, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(79, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(80, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(81, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(82, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(83, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(84, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(85, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(86, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(87, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(88, 2, 'admin', '202cb962ac59075b964b07152d234b70'),
+(89, 2, 'carl', '202cb962ac59075b964b07152d234b70'),
+(90, 2, 'carl', '202cb962ac59075b964b07152d234b70');
 
 -- --------------------------------------------------------
 
@@ -614,7 +641,22 @@ INSERT INTO `user_profile` (`id`, `user_id`, `name_first`, `name_middle`, `name_
 (74, 72, 'Warren Hero', 'Robles', 'Calagos', 'M', 23, '9978473320', 'Brgy. San Policarpo Calbayog City', '', ''),
 (75, 73, 'gg', 'g', 'gg', 'M', 34, '9978473320', 'bgy. awang calbayog city', '', ''),
 (76, 74, 'warren', 'robles', 'calagos', 'M', 20, '0912544214', 'brgy ipao', '', ''),
-(77, 75, 'Jaysam', 'M.', 'Casaljay', 'M', 34, '09978473320', 'Bgy. Rawis Calbayog City', '', '');
+(77, 75, 'Jaysam', 'M.', 'Casaljay', 'M', 34, '09978473320', 'Bgy. Rawis Calbayog City', '', ''),
+(78, 76, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(79, 77, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(80, 78, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(81, 79, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(82, 80, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(83, 81, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(84, 82, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(85, 83, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(86, 84, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(87, 85, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(88, 86, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(89, 87, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(90, 88, 'Marian', 'd', 'Rivera', 'F', 30, '09235555454', 'Bgy. Rawis Calbayog City', '', ''),
+(91, 89, 'carlo', 'b', 'Papasin', 'M', 23, '09978473320', 'Bgy. Ipao Calbayog City', '', ''),
+(92, 90, 'Carla', 'B', 'Papasin', 'M', 23, '09978473320', 'Bgy. Ipao Calbayog City', '', '');
 
 -- --------------------------------------------------------
 
@@ -703,7 +745,7 @@ CREATE TABLE `vw_users` (
 --
 DROP TABLE IF EXISTS `vw_lst_amenities`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_lst_amenities`  AS  select `la`.`id` AS `id`,`la`.`type_id` AS `type_id`,`ta`.`name` AS `type`,`la`.`name` AS `name`,`la`.`photo` AS `photo`,`la`.`rates` AS `rates`,`la`.`status` AS `status`,`la`.`unit` AS `unit`,`la`.`discount_id` AS `discount_id`,`td`.`name` AS `discount`,`td`.`percent` AS `percent`,`la`.`active` AS `active`,`la`.`person_limit` AS `person_limit` from ((`lst_aminities` `la` left join `typ_aminities` `ta` on(`ta`.`id` = `la`.`type_id`)) left join `typ_discount` `td` on(`td`.`id` = `la`.`discount_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_lst_amenities`  AS SELECT `la`.`id` AS `id`, `la`.`type_id` AS `type_id`, `ta`.`name` AS `type`, `la`.`name` AS `name`, `la`.`photo` AS `photo`, `la`.`rates` AS `rates`, `la`.`status` AS `status`, `la`.`unit` AS `unit`, `la`.`discount_id` AS `discount_id`, `td`.`name` AS `discount`, `td`.`percent` AS `percent`, `la`.`active` AS `active`, `la`.`person_limit` AS `person_limit` FROM ((`lst_aminities` `la` left join `typ_aminities` `ta` on(`ta`.`id` = `la`.`type_id`)) left join `typ_discount` `td` on(`td`.`id` = `la`.`discount_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -712,7 +754,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_lst_amenities`  AS  sel
 --
 DROP TABLE IF EXISTS `vw_rpt_reservation`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_rpt_reservation`  AS  select `r`.`date` AS `date`,sum(`r`.`amount`) AS `sales` from `trn_reservation` `r` where `r`.`status` = 'G' group by `r`.`date` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_rpt_reservation`  AS SELECT `r`.`date` AS `date`, sum(`r`.`amount`) AS `sales` FROM `trn_reservation` AS `r` WHERE `r`.`status` = 'G' GROUP BY `r`.`date` ;
 
 -- --------------------------------------------------------
 
@@ -721,7 +763,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_rpt_reservation`  AS  s
 --
 DROP TABLE IF EXISTS `vw_trn_reservations`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_trn_reservations`  AS  select `tr`.`id` AS `id`,`tr`.`date` AS `date`,`tr`.`am_id` AS `am_id`,`la`.`name` AS `aminity`,`tr`.`cs_id` AS `cs_id`,`u`.`fullname` AS `customer`,`u`.`address` AS `address`,`u`.`contact` AS `contact`,`u`.`age` AS `age`,`u`.`gender` AS `gender`,`tr`.`amount` AS `amount`,`tr`.`no_units` AS `no_units`,`tr`.`no_persons` AS `no_persons`,`tr`.`check_in` AS `check_in`,`tr`.`status` AS `status`,`tr`.`discount` AS `discount`,`tr`.`date_in` AS `date_in`,`tr`.`date_out` AS `date_out` from ((`trn_reservation` `tr` left join `lst_aminities` `la` on(`la`.`id` = `tr`.`am_id`)) left join `vw_users` `u` on(`u`.`user_id` = `tr`.`cs_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_trn_reservations`  AS SELECT `tr`.`id` AS `id`, `tr`.`date` AS `date`, `tr`.`am_id` AS `am_id`, `la`.`name` AS `aminity`, `tr`.`cs_id` AS `cs_id`, `u`.`fullname` AS `customer`, `u`.`address` AS `address`, `u`.`contact` AS `contact`, `u`.`age` AS `age`, `u`.`gender` AS `gender`, `tr`.`amount` AS `amount`, `tr`.`no_units` AS `no_units`, `tr`.`no_persons` AS `no_persons`, `tr`.`check_in` AS `check_in`, `tr`.`status` AS `status`, `tr`.`discount` AS `discount`, `tr`.`date_in` AS `date_in`, `tr`.`date_out` AS `date_out` FROM ((`trn_reservation` `tr` left join `lst_aminities` `la` on(`la`.`id` = `tr`.`am_id`)) left join `vw_users` `u` on(`u`.`user_id` = `tr`.`cs_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -730,7 +772,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_trn_reservations`  AS  
 --
 DROP TABLE IF EXISTS `vw_users`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_users`  AS  select `u`.`user_id` AS `user_id`,`u`.`role_id` AS `role_id`,`r`.`name` AS `role`,`u`.`user_account` AS `user_account`,`u`.`user_password` AS `user_password`,concat(`up`.`name_first`,' ',`up`.`name_last`) AS `fullname`,`up`.`address` AS `address`,`up`.`contact` AS `contact`,`up`.`age` AS `age`,`up`.`gender` AS `gender`,`up`.`gender` AS `photo` from ((`user` `u` left join `user_profile` `up` on(`up`.`user_id` = `u`.`user_id`)) left join `typ_roles` `r` on(`r`.`id` = `u`.`role_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_users`  AS SELECT `u`.`user_id` AS `user_id`, `u`.`role_id` AS `role_id`, `r`.`name` AS `role`, `u`.`user_account` AS `user_account`, `u`.`user_password` AS `user_password`, concat(`up`.`name_first`,' ',`up`.`name_last`) AS `fullname`, `up`.`address` AS `address`, `up`.`contact` AS `contact`, `up`.`age` AS `age`, `up`.`gender` AS `gender`, `up`.`gender` AS `photo` FROM ((`user` `u` left join `user_profile` `up` on(`up`.`user_id` = `u`.`user_id`)) left join `typ_roles` `r` on(`r`.`id` = `u`.`role_id`)) ;
 
 --
 -- Indexes for dumped tables
@@ -798,25 +840,25 @@ ALTER TABLE `lst_aminities`
 -- AUTO_INCREMENT for table `trn_reservation`
 --
 ALTER TABLE `trn_reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `trn_schedule`
 --
 ALTER TABLE `trn_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `typ_aminities`
 --
 ALTER TABLE `typ_aminities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `typ_discount`
 --
 ALTER TABLE `typ_discount`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `typ_roles`
@@ -828,13 +870,13 @@ ALTER TABLE `typ_roles`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

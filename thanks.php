@@ -1,5 +1,5 @@
 <?php 
-
+ini_set('session.save_path', './temp');
 session_start();
 
 $reservation_no = $_REQUEST['trn'];
